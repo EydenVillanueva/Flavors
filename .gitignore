@@ -109,3 +109,8 @@ Pipfile.lock
 
 # visualStudio Code
 .vscode
+
+#  Carpeta para las imagenes
+/media
+
+# ESto es una prueba
