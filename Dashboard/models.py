@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-# Create your models here.
+#Timestamp model to save the date of every transaction of the rest of the models
 class Timestamp(models.Model):
     create_at = models.DateField(auto_now_add=True)
     update_at = models.DateField(auto_now=True)
@@ -10,6 +10,7 @@ class Timestamp(models.Model):
     class Meta:
         abstract = True
 
+# Client model that will be used to register new clients in the system
 class Client(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone = models.IntegerField()
@@ -19,6 +20,7 @@ class Client(models.Model):
     def __str__(self):
         return self.user
 
+#Restaurant model to every restaurant saved in the system.
 class Restaurant(Timestamp):
     name = models.CharField( max_length=50)
     address = models.TextField()
