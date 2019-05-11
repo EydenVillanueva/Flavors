@@ -17,21 +17,14 @@ class Timestamp(models.Model):
 # Client model that will be used to register new clients in the system
 class Client(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    phone = models.IntegerField(null=True, blank=True)
+    phone = models.CharField(max_length=15,null=True, blank=True)
     plan = models.CharField(max_length=50)
     city = models.CharField(max_length=50)
 
     def __str__(self):
         return self.user.username
 
-@receiver(post_save,sender=User)
-def create_user_client(sender,instance,created,**kwargs):
-    if created:
-        Client.objects.create(user=instance)
 
-@receiver(post_save,sender=User)
-def save_user_profile(sender,instance,**kwargs):
-    instance.client.save()
 
 
 # Restaurant model to every restaurant saved in the system.

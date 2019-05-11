@@ -6,16 +6,29 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from .forms import LoginForm, UserForm, ClientForm
 
+
 # Create your views here.
 def new_user(request):
-
     if request.method == 'POST':
+
         user_form = UserForm(request.POST)
         client_form = ClientForm(request.POST)
+
         if user_form.is_valid() and client_form.is_valid():
-            user_form.save()
+
+            user = user_form.save()
+
+            client = client_form.save(commit=False)
+            client.user = user
+
             client_form.save()
-            return redirect('')
+            
+            username = user_form.cleaned_data.get('username')
+            password = user_form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            login(request,user)            
+
+            return redirect('/')
     else:
         user_form = UserForm()
         client_form = ClientForm()
@@ -25,9 +38,8 @@ def new_user(request):
     return render(request,'Dashboard/new-user-form.html',context)
 
 def userlogin(request):
-
     if request.method == 'POST':
-        
+    
         user = authenticate(
             username=request.POST['username'],
             password=request.POST['password']

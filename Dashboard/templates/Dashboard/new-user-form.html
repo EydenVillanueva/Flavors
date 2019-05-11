@@ -70,33 +70,43 @@
             <div id="errormessage"></div>
             <form action="" method="post" role="form" class="contactForm">
                 {% csrf_token %}
-                
+
+                {{user_form.as_p}}
+                {{client_form.as_p}}
+                <!-- 
                 <div class="form-group">
-                    <input type="text" name="username" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                    <input type="text" name="username" class="form-control" id="name"
+                        placeholder="Your Username" data-rule="minlen:4"
+                        data-msg="Please enter at least 4 chars" />
                     <div class="validation"></div>
                 </div>
                 <div class="form-group">
-                    <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Your Email"
+                        data-rule="email" data-msg="Please enter a valid email" />
                     <div class="validation"></div>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" name="password" id="subject" placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+                    <input type="text" class="form-control" name="password" id="subject" placeholder="password"
+                        data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
                     <div class="validation"></div>
                 </div>
                 <div class="form-group">
-                    <textarea class="form-control" name="phone" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>
+                    <input type="text" class="form-control" name="phone" id="subject" placeholder="Phone number"
+                        data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
                     <div class="validation"></div>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" name="password" id="subject" placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+                    <input type="text" class="form-control" name="plan" id="subject" placeholder="Type your Plan"
+                        data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
                     <div class="validation"></div>
                 </div>
                 <div class="form-group">
-                    <textarea class="form-control" name="phone" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>
+                    <input type="text" class="form-control" name="city" id="subject" placeholder="City"
+                        data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
                     <div class="validation"></div>
                 </div>
-                <div class="text-center"><button type="submit">Send Message</button></div>
-                
+                -->
+                <div class="text-center"><button type="submit">Create User</button></div>
 
             </form>
             </div>
