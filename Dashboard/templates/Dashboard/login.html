@@ -34,13 +34,12 @@
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
-				<div class="login100-form-title" style="background-image: url('{% static 'Dashboard/images/bg-01.jpg'%}');">
-					<span class="login100-form-title-1">
-						Iniciar Sesión
-					</span>
+				<div class="login100-form-title" style="background-image: url('{% static 'Dashboard/images/bg-02.jpg'%}');">
+
 				</div>
 
 				<form class="login100-form validate-form" method="POST">
+					{% csrf_token %}
 					<div class="wrap-input100 validate-input m-b-26" data-validate="Ingrese un usuario">
 						<span class="label-input100">{{ login_form.username.label}}</span>
 						{{ login_form.username}}
@@ -55,29 +54,25 @@
 
 					<div class="flex-sb-m w-full p-b-30">
 						<div class="contact100-form-checkbox">
-							<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
-							<label class="label-checkbox100" for="ckb1">
-								Remember me
-							</label>
+								¿No tienes cuenta?
 						</div>
 
 						<div>
-							<a href="#" class="txt1">
-								Forgot Password?
+							<a href="{% url 'Dashboard:new_user' %}" class="txt1">
+								Registrate
 							</a>
 						</div>
 					</div>
-
-					<div class="container-login100-form-btn">
-						<form method="POST">
-							{% csrf_token %}
-							{{ form.as_p }}
-							<button class="login100-form-btn" type="submit">
-								Acceder
-							</button>
-						</form>
+						<button class="login100-form-btn" type="submit">
+							Acceder
+						</button>
+					{% if error %}
+					<div class="contact100-form-checkbox" style="color:red;">
+						verifique sus datos
 					</div>
+					{% endif %}
 				</form>
+
 			</div>
 		</div>
 	</div>

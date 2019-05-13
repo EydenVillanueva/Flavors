@@ -122,12 +122,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 
-
-# Logeo
-
-# AUTH_AUTHENTICATION_TYPE = 'both'
-
 AUTHENTICATION_BACKENDS = (
    'Dashboard.backends.ModelBackend',
-    # 'django.contrib.auth.backends.ModelBackend',
 )
+
