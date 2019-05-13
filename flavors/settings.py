@@ -120,3 +120,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# Logeo
+'''
+AUTH_AUTHENTICATION_TYPE = 'both'
+
+AUTHENTICATION_BACKENDS = (
+   'Dashboard.backends.EmailOrUsernameModelBackend',
+)
+'''
