@@ -69,11 +69,7 @@
             <div id="sendmessage">Your message has been sent. Thank you!</div>
             <div id="errormessage"></div>
             <form action="" method="post" role="form" class="contactForm">
-                {% csrf_token %}
-
-                {{user_form.as_p}}
-                {{client_form.as_p}}
-                <!-- 
+                {% csrf_token %}                                 
                 <div class="form-group">
                     <input type="text" name="username" class="form-control" id="name"
                         placeholder="Your Username" data-rule="minlen:4"
@@ -86,8 +82,11 @@
                     <div class="validation"></div>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" name="password" id="subject" placeholder="password"
-                        data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+                    <input type="password" class="form-control" name="password" id="subject" placeholder="password"
+                        data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />   
+                    {% if error %}
+                        <span>Correo existente.</span>
+                    {% endif %}  
                     <div class="validation"></div>
                 </div>
                 <div class="form-group">
@@ -105,7 +104,7 @@
                         data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
                     <div class="validation"></div>
                 </div>
-                -->
+                
                 <div class="text-center"><button type="submit">Create User</button></div>
 
             </form>
