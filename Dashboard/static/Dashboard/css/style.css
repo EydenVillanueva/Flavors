@@ -90,6 +90,7 @@ h1, h2, h3, h4, h5, h6 {
   right: 0;
   transition: all 0.5s;
   z-index: 997;
+  background-color: rgba(29, 29, 29, 0.5);
 }
 
 #header #logo {
@@ -496,7 +497,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 /* About Us Section
 --------------------------------*/
 #about {
-  background-color:#cec2c2 ;
+  background-color:#ececec ;
   padding: 80px 0;
 }
 
@@ -512,7 +513,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 #about .about-container .content {
-  background: #cec2c2 ;
+  background: #ececec ;
 }
 
 #about .about-container .title {
@@ -537,14 +538,14 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 #about .about-container .icon-box {
-  background: #cec2c2 ;
+  background: #ececec ;
   background-size: cover;
   padding: 0 0 30px 0;
 }
 
 #about .about-container .icon-box .icon {
   float: left;
-  background: #cec2c2 ;
+  background: #ececec ;
   width: 64px;
   height: 64px;
   display: flex;
@@ -721,7 +722,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 /* Portfolio Section
 --------------------------------*/
 #portfolio {
-  background: #cec2c2;
+  background: #ececec;
   padding: 80px 0;
 }
 
@@ -812,7 +813,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 /* Team Section
 --------------------------------*/
 #team {
-  background: #cec2c2;
+  background: #ececec;
   padding: 80px 0 60px 0;
 }
 
@@ -865,7 +866,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 /* Contact Section
 --------------------------------*/
 #contact {
-  background: #cec2c2;
+  background: #ffffff;
   padding: 80px 0 40px 0;
 }
 

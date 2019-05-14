@@ -1,44 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Flavors</title>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <meta content="" name="keywords">
-  <meta content="" name="description">
+{% extends 'Dashboard/base.html' %}
+{% load static %}
+{% block title %}Principal {% endblock title %}
+{% block header %}
 
-  {% load static %}
-  <!-- Favicons -->
-  <link href="{% static 'Dashboard/img/favicon.png' %}" rel="icon">
-  <link href="{% static 'Dashboard/img/apple-toucch-icon.png' %}" rel="apple-touch-icon">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Poppins:300,400,500,700" rel="stylesheet">
-
-  <!-- Bootstrap CSS File -->
-  <link href="{% static 'Dashboard/lib/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-
-  <!-- Libraries CSS Files -->
-  <link href="{% static 'Dashboard/lib/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
-  <link href="{% static 'Dashboard/lib/animate/animate.min.css' %}" rel="stylesheet">
-
-  <!-- Main Stylesheet File -->
-  <link href="{% static 'Dashboard/css/style.css' %}" rel="stylesheet">
-
-  <!-- =======================================================
-    Theme Name: Regna
-    Theme URL: https://bootstrapmade.com/regna-bootstrap-onepage-template/
-    Author: BootstrapMade.com
-    License: https://bootstrapmade.com/license/
-  ======================================================= -->
-</head>
-
-<body>
-
-  <!--==========================
-  Header
-  ============================-->
-  <header id="header">
     <div class="container">
 
       <div id="logo" class="pull-left">
@@ -52,27 +16,22 @@
           <li class="menu-active"><a href="#hero">Home</a></li>
           <li><a href="#about">What is Flavors?</a></li>
           <li><a href="#">System Access</a></li>
-          <li><a href="#">Log in</a></li>
+
+          {% if not user.is_authenticated %}
+          <li><a href="{% url 'Dashboard:login' %}">Log in</a></li>
+          {% else %}
+          <li><a href="#">{{ user.username }}</a></li>
+          {% endif %}
+
           <li><a href="#contact">Contact Us</a></li>
         </ul>
       </nav><!-- #nav-menu-container -->
     </div>
-  </header><!-- #header -->
+{% endblock header %}
 
-  <!--==========================
-    Hero Section
-  ============================-->
-  <section id="hero">
-    <div class="hero-container">
-      <h1>Flavors</h1>
-      <h2>Imagine, search, eat</h2>
-      <a href="#about" class="btn-get-started">More information</a>
-    </div>
-  </section><!-- #hero -->
 
-  <main id="main">
-
-    <section id="about">
+{% block main %}
+     <section id="about">
       <div class="container">
         <div class="row about-container">
 
@@ -137,13 +96,12 @@
         </div>
         <div class="row">
 
-        
-        </div>
 
+        </div>
         <div class="row" id="portfolio-wrapper">
           <div class="col-lg-3 col-md-6 portfolio-item filter-app">
             <a href="">
-              <img src="img/portfolio/app1.jpg" alt="">
+              <img src="{% static 'Dashboard/img/portfolio/app1.jpg' %}" alt="">
               <div class="details">
                 <h4>App 1</h4>
                 <span>Alored dono par</span>
@@ -153,7 +111,7 @@
 
           <div class="col-lg-3 col-md-6 portfolio-item filter-app">
             <a href="">
-              <img src="img/portfolio/app3.jpg" alt="">
+              <img src="{% static 'Dashboard/img/portfolio/app3.jpg' %}" alt="">
               <div class="details">
                 <h4>App 3</h4>
                 <span>Alored dono par</span>
@@ -163,7 +121,7 @@
 
              <div class="col-lg-3 col-md-6 portfolio-item filter-app">
             <a href="">
-              <img src="img/portfolio/app2.jpg" alt="">
+              <img src="{% static 'Dashboard/img/portfolio/app2.jpg' %}" alt="">
               <div class="details">
                 <h4>App 2</h4>
                 <span>Alored dono par</span>
@@ -173,7 +131,7 @@
 
           <div class="col-lg-3 col-md-6 portfolio-item filter-card">
             <a href="">
-              <img src="img/portfolio/card1.jpg" alt="">
+              <img src="{% static 'Dashboard/img/portfolio/card1.jpg' %}" alt="">
               <div class="details">
                 <h4>Card 1</h4>
                 <span>Alored dono par</span>
@@ -181,7 +139,7 @@
             </a>
           </div>
 
-       
+
             </a>
           </div>
 
@@ -202,16 +160,16 @@
         <div class="row">
           <div class="col-lg-3 col-md-6">
             <div class="member">
-              <div class="pic"><img src="img/das.png" alt=""></div>
+              <div class="pic"><img src="{% static 'Dashboard/img/das.png' %}" alt=""></div>
               <h4>Plan 1</h4>
               <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
-             
+
             </div>
           </div>
 
           <div class="col-lg-3 col-md-6">
             <div class="member">
-              <div class="pic"><img src="img/das.png" alt=""></div>
+              <div class="pic"><img src="{% static 'Dashboard/img/das.png' %}" alt=""></div>
               <h4>plan2</h4>
               <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
             </div>
@@ -219,7 +177,7 @@
 
           <div class="col-lg-3 col-md-6">
             <div class="member">
-              <div class="pic"><img src="img/das.png" alt=""></div>
+              <div class="pic"><img src="{% static 'Dashboard/img/das.png' %}" alt=""></div>
               <h4>plan3</h4>
               <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
             </div>
@@ -227,7 +185,7 @@
 
           <div class="col-lg-3 col-md-6">
             <div class="member">
-              <div class="pic"><img src="img/das.png" alt=""></div>
+              <div class="pic"><img src="{% static 'Dashboard/img/das.png' %}" alt=""></div>
               <h4>plan4</h4>
               <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
             </div>
@@ -311,14 +269,17 @@
 
       </div>
     </section><!-- #contact -->
+{% endblock main %}
 
-  </main>
+
+
+
 
   <!--==========================
     Footer
   ============================-->
-  <footer id="footer">
-    <div class="footer-top">
+     {% block footer %}
+      <div class="footer-top">
       <div class="container">
 
       </div>
@@ -337,26 +298,9 @@
         -->
       </div>
     </div>
-  </footer><!-- #footer -->
+     {% endblock footer %}
 
-  <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
 
-  <!-- JavaScript Libraries -->
-  <script src="{% static 'Dashboard/lib/jquery/jquery.min.js' %}"></script>
-  <script src="{% static 'Dashboard/lib/jquery/jquery-migrate.min.js' %}"></script>
-  <script src="{% static 'Dashboard/lib/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-  <script src="{% static 'Dashboard/lib/easing/easing.min.js' %}"></script>
-  <script src="{% static 'Dashboard/lib/wow/wow.min.js' %}"></script>
-  <script src="{% static 'Dashboard/lib/waypoints/waypoints.min.js' %}"></script>
-  <script src="{% static 'Dashboard/lib/counterup/counterup.min.js' %}"></script>
-  <script src="{% static 'Dashboard/lib/superfish/hoverIntent.js' %}"></script>
-  <script src="{% static 'Dashboard/lib/superfish/superfish.min.js' %}"></script>
 
-  <!-- Contact Form JavaScript File -->
-  <script src="{% static 'Dashboard/contactform/contactform.js' %}"></script>
 
-  <!-- Template Main Javascript File -->
-  <script src="{% static 'Dashboard/js/main.js' %}"></script>
 
-</body>
-</html>
