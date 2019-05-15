@@ -77,9 +77,16 @@ WSGI_APPLICATION = 'flavors.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'OPTIONS': {
+            'read_default_file': '../my.cnf',
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
     }
+    # 'defaultt': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # }
 }
 
 
@@ -125,6 +132,5 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 
 AUTHENTICATION_BACKENDS = (
-   'Dashboard.backends.ModelBackend',
+    'Dashboard.backends.ModelBackend',
 )
-
