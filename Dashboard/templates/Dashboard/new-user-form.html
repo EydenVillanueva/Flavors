@@ -1,130 +1,120 @@
-{% extends 'Dashboard/base.html' %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<title>Flavors | Registro</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-{% block links %}{% endblock links %}
+	{% load static %}
+	<link rel="icon" type="image/png" href="{% static 'Dashboard/images/icons/favicon.ico' %}"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'Dashboard/vendor/bootstrap/css/bootstrap.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'Dashboard/css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'Dashboard/css/main.css' %}">
+<!--===============================================================================================-->
+</head>
+<body>
 
-{% block title %}Flavors | Log In {% endblock title %}
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100">
+				<div class="login100-form-title" style="background-image: url('{% static 'Dashboard/images/bg-02.jpg'%}');">
 
-{% block header %}
-    <div class="container">
-        <div id="logo" class="pull-left">
-        <a href="#" style="color:white", font-size="40p">Flavors</a>
-            <!-- Uncomment below if you prefer to use a text logo -->
-            <!--<h1><a href="#hero">Regna</a></h1>-->
-        </div>
+				</div>
 
-        <nav id="nav-menu-container">
-            <ul class="nav-menu">
-            <li class="menu-active"><a href="#hero">Home</a></li>
-            <li><a href="#about">What is Flavors?</a></li>
-            <li><a href="#">System Access</a></li>
-            <li><a href="#">Log in</a></li>
-            <li><a href="#contact">Contact Us</a></li>
-            </ul>
-        </nav><!-- #nav-menu-container -->
-    </div>
-{% endblock header %}
+				<form class="login100-form validate-form" method="POST">
+					{% csrf_token %}
 
-{% block main %}
-    <section id="contact">
-    <div class="container wow fadeInUp">
-        <div class="section-header">
-        <h3 class="section-title">Contact Us</h3>
-        <p class="section-description" style="color:black;">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque</p>
-        </div>
-    </div>
 
-    <!-- Uncomment below if you wan to use dynamic maps -->
-    <div class="container wow fadeInUp mt-5">
-        <div class="row justify-content-center">
-        
-            <!-- Iconos Formulario -->
-        <div class="col-lg-3 col-md-4">
-            <div class="info">
-            <div>
-                <i class="fa fa-map-marker"></i>
-                <p>A108 Adam Street<br>New York, NY 535022</p>
-            </div>
-            <div>
-                <i class="fa fa-envelope"></i>
-                <p>info@example.com</p>
-            </div>
-            <div>
-                <i class="fa fa-phone"></i>
-                <p>+1 5589 55488 55s</p>
-            </div>
-            </div>
-            <div class="social-links">
-            <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
-            <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
-            <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
-            <a href="#" class="google-plus"><i class="fa fa-google-plus"></i></a>
-            <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
-            </div>
-        </div>
-        <!-- Iconos Formulario -->
+					<div class="wrap-input100 validate-input m-b-26" data-validate="Ingrese un usuario">
+						<span class="label-input100">Nombre de usuario</span>
 
-        <!-- Formulario -->
-        <div class="col-lg-5 col-md-8">
-            <div class="form">
-            <div id="sendmessage">Your message has been sent. Thank you!</div>
-            <div id="errormessage"></div>
-            <form action="" method="post" role="form" class="contactForm">
-                {% csrf_token %}
+						<input type="text" name="username" class="input100"
+                        placeholder="Usuario" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
 
-                {{user_form.as_p}}
-                {{client_form.as_p}}
-                <!-- 
-                <div class="form-group">
-                    <input type="text" name="username" class="form-control" id="name"
-                        placeholder="Your Username" data-rule="minlen:4"
-                        data-msg="Please enter at least 4 chars" />
-                    <div class="validation"></div>
-                </div>
-                <div class="form-group">
-                    <input type="email" class="form-control" name="email" id="email" placeholder="Your Email"
-                        data-rule="email" data-msg="Please enter a valid email" />
-                    <div class="validation"></div>
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-control" name="password" id="subject" placeholder="password"
-                        data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
-                    <div class="validation"></div>
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-control" name="phone" id="subject" placeholder="Phone number"
-                        data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
-                    <div class="validation"></div>
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-control" name="plan" id="subject" placeholder="Type your Plan"
-                        data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
-                    <div class="validation"></div>
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-control" name="city" id="subject" placeholder="City"
-                        data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
-                    <div class="validation"></div>
-                </div>
-                -->
-                <div class="text-center"><button type="submit">Create User</button></div>
+						<span class="focus-input100"></span>
+					</div>
 
-            </form>
-            </div>
-        </div>
-        <!-- Formulario -->
+					<div class="wrap-input100 validate-input m-b-18" data-validate = "Ingrese una contraseña">
+						<span class="label-input100">Contraseña</span>
 
-        </div>
-    </div>
-    </section>
-{% endblock main %}
 
-{% block footer %}
-  <div class="container">
-    <div class="copyright">
-      &copy; Copyright <strong>Flavors</strong>. All Rights Reserved
-    </div>
-  </div>
-{% endblock footer %}
+						<input type="password" name="password" class="input100"
+                        placeholder="Contraseña" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
 
-{% block libraries %}
-{% endblock libraries %}
+						<span class="focus-input100"></span>
+					</div>
+
+                    <div class="wrap-input100 validate-input m-b-26" data-validate="Ingrese su email">
+						<span class="label-input100">Correo Electrónico</span>
+
+						<input type="email" name="email" class="input100"
+                        placeholder="Correo Electrónico" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+
+						<span class="focus-input100"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input m-b-18" data-validate = "Ingrese su número telefónico">
+						<span class="label-input100">Número Telefónico</span>
+
+
+						<input type="text" name="phone" class="input100"
+                        placeholder="Número Telefónico" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+
+						<span class="focus-input100"></span>
+					</div>
+
+                    <div class="wrap-input100 validate-input m-b-18" data-validate = "Ingrese su número telefónico">
+						<span class="label-input100">Plan de subscripción</span>
+
+
+						<input type="text" name="plan" class="input100"
+                        placeholder="Plan" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+
+						<span class="focus-input100"></span>
+					</div>
+
+                    <div class="wrap-input100 validate-input m-b-18" data-validate = "Ingrese su número telefónico">
+						<span class="label-input100">Ciudad</span>
+
+
+						<input type="text" name="ciudad" class="input100"
+                        placeholder="Ciudad" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+
+						<span class="focus-input100"></span>
+					</div>
+
+					<div class="flex-sb-m w-full p-b-30">
+						<div class="contact100-form-checkbox">
+								¿ Ya tienes cuenta?
+						</div>
+
+						<div>
+							<a href="{% url 'Dashboard:login' %}" class="txt1">
+								Inicia Sesión
+							</a>
+						</div>
+					</div>
+
+                    <button class="login100-form-btn" type="submit">
+                        Registrarme
+                    </button>
+
+					{% if error %}
+					<div class="contact100-form-checkbox" style="color:red;">
+						verifique sus datos
+					</div>
+					{% endif %}
+				</form>
+
+			</div>
+		</div>
+	</div>
+
+	<script src="{% static 'Dashboard/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'Dashboard/js/main1.js' %}"></script>
+
+</body>
+</html>

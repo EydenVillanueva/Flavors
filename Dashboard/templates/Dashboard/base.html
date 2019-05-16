@@ -1,18 +1,29 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="utf-8">
   <title>{% block title %} {% endblock title %}</title>
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta content="" name="keywords">
   <meta content="" name="description">
-  <link href="img/favicon.png" rel="icon">
-  <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
+  {% load static %}
+  <!-- Favicons -->
+  <link href="{% static 'Dashboard/img/favicon.png' %}" rel="icon">
+  <link href="{% static 'Dashboard/img/apple-toucch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Poppins:300,400,500,700" rel="stylesheet">
-  <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-  <link href="lib/animate/animate.min.css" rel="stylesheet">
-  <link href="css/style.css" rel="stylesheet">
+
+  <!-- Bootstrap CSS File -->
+  <link href="{% static 'Dashboard/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+  <!-- Libraries CSS Files -->
+  <link href="{% static 'Dashboard/fonts/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+  <link href="{% static 'Dashboard/vendor/animate/animate.css' %}" rel="stylesheet">
+
+  <!-- Main Stylesheet File -->
+  <link href="{% static 'Dashboard/css/style.css' %}" rel="stylesheet">
   {% block links %}
   {% endblock links %}
 </head>
@@ -21,6 +32,21 @@
     {% block header %}
     {% endblock header %}
   </header>
+  {% block cuerpo %}
+  {% endblock cuerpo %}
+
+  {% block hero %}
+  <!--==========================
+    Hero Section
+  ============================-->
+  <section id="hero">
+    <div class="hero-container">
+      <h1>Flavors</h1>
+      <h2>Imagine, search, eat</h2>
+      <a href="#about" class="btn-get-started">More information</a>
+    </div>
+  </section><!-- #hero -->
+  {% endblock hero %}
   
   <main id="main">
     {% block main %}
@@ -32,21 +58,23 @@
   {% block footer %}
 
   {% endblock footer %}
-</footer>
+    <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+  </footer>
 
 
-  <!-- JavaScript Libraries -->
-  <script src="lib/jquery/jquery.min.js"></script>
-  <script src="lib/jquery/jquery-migrate.min.js"></script>
-  <script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="lib/easing/easing.min.js"></script>
-  <script src="lib/wow/wow.min.js"></script>
-  <script src="lib/waypoints/waypoints.min.js"></script>
-  <script src="lib/counterup/counterup.min.js"></script>
-  <script src="lib/superfish/hoverIntent.js"></script>
-  <script src="lib/superfish/superfish.min.js"></script>
-  <script src="contactform/contactform.js"></script>
-  <script src="js/main.js"></script>
+ <!-- JavaScript Libraries -->
+  <script src="{% static 'Dashboard/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'Dashboard/vendor/jquery/jquery-migrate.min.js' %}"></script>
+  <script src="{% static 'Dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'Dashboard/vendor/easing/easing.min.js' %}"></script>
+  <script src="{% static 'Dashboard/vendor/wow/wow.min.js' %}"></script>
+  <script src="{% static 'Dashboard/vendor/waypoints/waypoints.min.js' %}"></script>
+  <script src="{% static 'Dashboard/vendor/counterup/counterup.min.js' %}"></script>
+  <script src="{% static 'Dashboard/vendor/superfish/hoverIntent.js' %}"></script>
+  <script src="{% static 'Dashboard/vendor/superfish/superfish.min.js' %}"></script>
+  
+  <!-- Template Main Javascript File -->
+  <script src="{% static 'Dashboard/js/main.js' %}"></script>
   {% block libraries %}
 
   {% endblock libraries %}

@@ -24,9 +24,6 @@ class Client(models.Model):
     def __str__(self):
         return self.user.username
 
-
-
-
 # Restaurant model to every restaurant saved in the system.
 class Restaurant(Timestamp):
     name = models.CharField(max_length=50)
