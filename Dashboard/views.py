@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.contrib.auth import logout
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect, reverse
@@ -72,3 +73,7 @@ class LoginView(FormView):
 
 class Home(TemplateView):
     template_name = "Dashboard/index.html"
+    
+def logout_view(request):
+    logout(request)
+    return render(request, 'Dashboard/index.html')
