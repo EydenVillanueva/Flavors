@@ -77,11 +77,11 @@ WSGI_APPLICATION = 'flavors.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME':'db_flavors',
-        'USER':'root',
-        'PASSWORD':'1234',
-        'HOST':'localhost',
-        'PORT':'3306',
+        'NAME': 'db_flavors',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
