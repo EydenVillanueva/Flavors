@@ -115,3 +115,9 @@ Pipfile.lock
 
 # PyCharm
 /.idea
+
+# Migrations
+/migrations/
+
+# my.cnf config
+my.cnf
