@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.contrib.auth import logout
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect, reverse
@@ -97,3 +98,7 @@ class CreateRestaurant(LoginRequiredMixin, CreateView):
     def get_object(self):
         client = Client.objects.get(user=self.request.user)
         return client
+    
+def logout_view(request):
+    logout(request)
+    return render(request, 'Dashboard/index.html')

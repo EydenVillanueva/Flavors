@@ -22,6 +22,7 @@
           {% else %}
           <li><a href="#">{{ user.username }}</a></li>
           <li><a href="{% url 'Dashboard:new_restaurant' %}">Registrar restaurante</a></li>
+          <li><a  href="{% url 'logout' %}">Logout</a></li>
           {% endif %}
 
           <li><a href="#contact">Contact Us</a></li>
