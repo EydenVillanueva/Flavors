@@ -120,4 +120,4 @@ Pipfile.lock
 /migrations/
 
 # my.cnf config
-my.cnf
+./my.cnf

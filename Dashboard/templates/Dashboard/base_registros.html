@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+
+    <head>
+        <title>Flavors |
+            {% block titulo %}{% endblock titulo %}
+        </title>
+        <meta charset="UTF-8">
+        <meta content="width=device-width, initial-scale=1" name="viewport">
+
+        {% load static %}
+        <link rel="icon" type="image/png" href="{% static 'Dashboard/images/icons/favicon.ico' %}"/>
+        <link rel="stylesheet" type="text/css" href="{% static 'Dashboard/vendor/bootstrap/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'Dashboard/vendor/animate/animate.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'Dashboard/fonts/font-awesome/css/font-awesome.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'Dashboard/css/util.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'Dashboard/css/main.css' %}">
+
+    </head>
+
+    <body>
+
+        <div class="limiter">
+            <div class="container-login100">
+                <div class="wrap-login100">
+                    <div class="login100-form-title" style="background-image: url('{% static 'Dashboard/images/bg-02.jpg' %}');"></div>
+
+                    {% block form %}{% endblock form %}
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>

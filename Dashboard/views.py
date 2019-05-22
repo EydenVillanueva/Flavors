@@ -6,8 +6,10 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.http.response import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from .forms import LoginForm, UserForm, ClientForm
+from .forms import LoginForm, UserForm, ClientForm, RestaurantForm
 from django.views.generic import CreateView, FormView, TemplateView
 from .models import Client
 
@@ -50,6 +52,7 @@ def new_user(request):
 
     return render(request, 'Dashboard/new-user-form.html', context)
 
+
 class LoginView(FormView):
     form_class = AuthenticationForm
     template_name = 'Dashboard/login.html'
@@ -72,3 +75,25 @@ class LoginView(FormView):
 
 class Home(TemplateView):
     template_name = "Dashboard/index.html"
+
+
+class CreateRestaurant(LoginRequiredMixin, CreateView):
+    form_class = RestaurantForm
+    template_name = "Dashboard/new_restaurant.html"
+    success_url = reverse_lazy("Dashboard:home")
+
+    login_url = 'Dashboard:login'
+
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        if form.is_valid():
+            restaurant = form.save(commit=False)
+            restaurant.owner = self.get_object()
+            restaurant.save()
+            return super(CreateRestaurant, self).form_valid(form)
+        else:
+            return super(CreateRestaurant, self).form_invalid(form)
+
+    def get_object(self):
+        client = Client.objects.get(user=self.request.user)
+        return client
