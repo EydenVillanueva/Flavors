@@ -1,31 +1,25 @@
 {% extends 'Dashboard/base.html' %}
 {% load static %}
 {% block title %}Principal {% endblock title %}
+
 {% block header %}
 
     <div class="container">
 
       <div id="logo" class="pull-left">
-      <a href="#" style="color:white", font-size="40p">Flavors</a>
-        <!-- Uncomment below if you prefer to use a text logo -->
-        <!--<h1><a href="#hero">Regna</a></h1>-->
+      <a href="{% url 'Dashboard:home' %}" style="color:white", font-size="40p">Flavors</a>
       </div>
 
       <nav id="nav-menu-container">
         <ul class="nav-menu">
-          <li class="menu-active"><a href="#hero">Home</a></li>
-          <li><a href="#about">What is Flavors?</a></li>
-          <li><a href="#">System Access</a></li>
-
           {% if not user.is_authenticated %}
-          <li><a href="{% url 'Dashboard:login' %}">Log in</a></li>
+          <li><a href="{% url 'Dashboard:login' %}">Log In</a></li>
+          <li><a href="{% url 'Dashboard:new_user' %}">Register</a></li>
           {% else %}
           <li><a href="#">{{ user.username }}</a></li>
           <li><a href="{% url 'Dashboard:new_restaurant' %}">Registrar restaurante</a></li>
           <li><a  href="{% url 'logout' %}">Logout</a></li>
           {% endif %}
-
-          <li><a href="#contact">Contact Us</a></li>
         </ul>
       </nav><!-- #nav-menu-container -->
     </div>

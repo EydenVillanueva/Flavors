@@ -7,91 +7,60 @@
 
 	{% load static %}
 	<link rel="icon" type="image/png" href="{% static 'Dashboard/images/icons/favicon.ico' %}"/>
-<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'Dashboard/vendor/bootstrap/css/bootstrap.min.css' %}">
-<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'Dashboard/css/util.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'Dashboard/css/main.css' %}">
-<!--===============================================================================================-->
 </head>
 <body>
-
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
-				<div class="login100-form-title" style="background-image: url('{% static 'Dashboard/images/bg-02.jpg'%}');">
-
-				</div>
+				<div class="login100-form-title" style="background-image: url('{% static 'Dashboard/images/bg-02.jpg'%}');"></div>				
 
 				<form class="login100-form validate-form" method="POST">
-					{% csrf_token %}
+					{% csrf_token %} 
+					
+					<div class="row">
+					{% for field in form %}
+						<div class="wrap-input100 validate-input m-b-26">
+							{% if field.errors %}								
+								<span style="color:red; margin-bottom: 5px">
+									{{field.errors}}
+								</span>
+							{% endif %}
 
+							{{ field.label_tag }} {{ field }}
+							<span class="focus-input100"></span>
+						</div>
+					{% endfor %}
 
-					<div class="wrap-input100 validate-input m-b-26" data-validate="Ingrese un usuario">
-						<span class="label-input100">Nombre de usuario</span>
-
-						<input type="text" name="username" class="input100"
-                        placeholder="Usuario" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
-
-						<span class="focus-input100"></span>
-					</div>
-
-					<div class="wrap-input100 validate-input m-b-18" data-validate = "Ingrese una contraseña">
-						<span class="label-input100">Contraseña</span>
-
-
-						<input type="password" name="password" class="input100"
-                        placeholder="Contraseña" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
-
-						<span class="focus-input100"></span>
-					</div>
-
-                    <div class="wrap-input100 validate-input m-b-26" data-validate="Ingrese su email">
-						<span class="label-input100">Correo Electrónico</span>
-
-						<input type="email" name="email" class="input100"
-                        placeholder="Correo Electrónico" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
-
-						<span class="focus-input100"></span>
-					</div>
-
-					<div class="wrap-input100 validate-input m-b-18" data-validate = "Ingrese su número telefónico">
-						<span class="label-input100">Número Telefónico</span>
-
-
-						<input type="text" name="phone" class="input100"
-                        placeholder="Número Telefónico" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
-
-						<span class="focus-input100"></span>
-					</div>
-
-                    <div class="wrap-input100 validate-input m-b-18" data-validate = "Ingrese su número telefónico">
-						<span class="label-input100">Plan de subscripción</span>
-
-
-						<input type="text" name="plan" class="input100"
-                        placeholder="Plan" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
-
-						<span class="focus-input100"></span>
-					</div>
-
-                    <div class="wrap-input100 validate-input m-b-18" data-validate = "Ingrese su número telefónico">
-						<span class="label-input100">Ciudad</span>
-
-
-						<input type="text" name="ciudad" class="input100"
-                        placeholder="Ciudad" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
-
-						<span class="focus-input100"></span>
-					</div>
+                    {{detalle_client_form_set.management_form}}
+					{% for detalle_client_form in detalle_client_form_set %}
+						<div class="wrap-input100 validate-input m-b-26">
+							<label>Phone Number:</label>
+						{{detalle_client_form.phone}}
+							<div class="validation"></div>
+						</div>
+						<div class="wrap-input100 validate-input m-b-26">
+							<label>Plan:</label>
+						{{detalle_client_form.plan}}
+							<div class="validation"></div>
+						</div>
+						<div class="wrap-input100 validate-input m-b-26">
+							<label>Ciudad:</label>
+						{{detalle_client_form.city}}
+							<div class="validation"></div>
+						</div>
+					{% endfor%}
+					
+				</div>
 
 					<div class="flex-sb-m w-full p-b-30">
 						<div class="contact100-form-checkbox">
 								¿ Ya tienes cuenta?
 						</div>
-
 						<div>
-							<a href="{% url 'Dashboard:login' %}" class="txt1">
+							<a href="{% url 'Dashboard:login' %}" class="txt1" style="color:rgb(204, 31, 31); font-weight: bold; font-size: 1.1rem;">
 								Inicia Sesión
 							</a>
 						</div>
@@ -100,12 +69,6 @@
                     <button class="login100-form-btn" type="submit">
                         Registrarme
                     </button>
-
-					{% if error %}
-					<div class="contact100-form-checkbox" style="color:red;">
-						verifique sus datos
-					</div>
-					{% endif %}
 				</form>
 
 			</div>

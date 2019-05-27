@@ -121,3 +121,9 @@ migrations/
 
 # my.cnf config
 my.cnf
+
+#MysqlClient Binary File
+mysqlclient-1.4.2-cp27-cp27m-win32.whl
+
+#deactivate bat file
+deactivate.bat

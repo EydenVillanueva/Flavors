@@ -7,11 +7,11 @@
 
 
 {% block form %}
-    <form class=" login100-form validate-form" method="POST">
+    <form class="login100-form validate-form" method="POST">
         {% csrf_token %}
 
         {% if form.non_field_errors %}
-            <p style="color:red; margin-bottom: 10px">
+            <p style="color:red; margin-bottom: 5px">
                 Usuario o contraseña incorrectos, prueba de nuevo.
             </p>
         {% endif %}
