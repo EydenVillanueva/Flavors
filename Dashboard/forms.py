@@ -28,20 +28,18 @@ class UserForm(forms.ModelForm):
         self.fields['password'].widget.attrs['placeholder'] = 'Contraseña'
         self.fields['email'].widget.attrs['placeholder'] = 'Correo'
         
-
     def clean_email(self):
         email = self.cleaned_data['email']
         query = User.objects.filter(email=email)
         if query.exists():
-            raise ValidationError(('Email is already registered'))
-
+            raise ValidationError(('Email ya registrado.'))
         return email
 
     def clean_username(self):
         username = self.cleaned_data['username']
         query = User.objects.filter(username=username)
         if query.exists():
-            raise ValidationError(('Username is already registered'))
+            raise ValidationError(('Nombre de usuario existente.'))
         return username
 
 class ClientForm(forms.ModelForm):
@@ -57,15 +55,21 @@ class ClientForm(forms.ModelForm):
 
     def clean_phone(self):
         phone = self.cleaned_data['phone']
-        if phone == '':
-            raise forms.ValidationError("Debe ingresar un número telefonico")
+        if not(phone):
+            raise ValidationError("Ingrese un número telefonico")
         return phone
 
     def clean_plan(self):
         plan = self.cleaned_data['plan']
-        if plan == '':
-            raise forms.ValidationError("Debe ingresar el tipo de plan")
+        if not(plan):
+            raise ValidationError("Ingrese el plan")
         return plan
+    
+    def clean_city(self):
+        city = self.cleaned_data['city']
+        if not(city):
+            raise ValidationError("Ingrese la ciudad")
+        return city
 
     def __init__(self, *args, **kwargs):
         super(ClientForm, self).__init__(*args, **kwargs)
@@ -76,7 +80,7 @@ class ClientForm(forms.ModelForm):
         self.fields['plan'].widget.attrs['placeholder'] = 'Plan'
         self.fields['city'].widget.attrs['placeholder'] = 'Ciudad de Residencia'
 
-ClientFormSet = inlineformset_factory(User, Client, form=ClientForm)
+ClientFormSet = inlineformset_factory(User, Client, form=ClientForm, validate_min=True)
 
 
 class LoginForm(forms.ModelForm):

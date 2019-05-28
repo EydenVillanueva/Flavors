@@ -37,18 +37,28 @@
                     {{detalle_client_form_set.management_form}}
 					{% for detalle_client_form in detalle_client_form_set %}
 						<div class="wrap-input100 validate-input m-b-26">
-							<label>Phone Number:</label>
-						{{detalle_client_form.phone}}
+							<span style="color:red; margin-bottom: 5px">
+								{{detalle_client_form.phone.errors}}
+							</span>
+							<label>Número Telefónico:</label>
+							{{detalle_client_form.phone}}							
+
 							<div class="validation"></div>
 						</div>
 						<div class="wrap-input100 validate-input m-b-26">
+							<span style="color:red; margin-bottom: 5px">
+								{{detalle_client_form.phone.errors}}
+							</span>
 							<label>Plan:</label>
-						{{detalle_client_form.plan}}
+							{{detalle_client_form.plan}}
 							<div class="validation"></div>
 						</div>
 						<div class="wrap-input100 validate-input m-b-26">
+							<span style="color:red; margin-bottom: 5px">
+								{{detalle_client_form.phone.errors}}
+							</span>
 							<label>Ciudad:</label>
-						{{detalle_client_form.city}}
+							{{detalle_client_form.city}}
 							<div class="validation"></div>
 						</div>
 					{% endfor%}
