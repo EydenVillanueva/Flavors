@@ -1,0 +1,41 @@
+{% extends 'Dashboard/base_registros.html' %}
+
+{% block titulo %}
+    Nuevo Restaurante
+{% endblock titulo %}
+
+{% block form %}
+    <form class="login100-form validate-form" method="POST">
+        {% csrf_token %}
+        <div class="wrap-input100 validate-input m-b-26">
+            <span class="label-input100">{{ form.name.label }}</span>
+            {{ form.name }}
+            <span class="focus-input100"></span>
+        </div>
+        <div class="wrap-input100 validate-input m-b-26">
+            <span class="label-input100">{{ form.address.label}}</span>
+            {{ form.address }}
+            <span class="focus-input100"></span>
+        </div>
+        <div class="wrap-input100 validate-input m-b-26">
+            <span class="label-input100">{{ form.logo_url.label}}</span>
+            {{ form.logo_url }}
+            <span class="focus-input100"></span>
+        </div>
+        <div class="wrap-input100 validate-input m-b-26">
+            <span class="label-input100">{{ form.web_site.label}}</span>
+            {{ form.web_site }}
+            <span class="focus-input100"></span>
+        </div>
+
+        <div class="flex-sb-m w-full p-b-30">
+            <div class="container-login100-form-btn">
+                <button class="login100-form-btn">
+                    Registrar
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+{% endblock form %}

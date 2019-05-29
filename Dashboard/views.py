@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.contrib.auth import logout
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect, reverse
@@ -6,49 +7,52 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.http.response import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from .forms import LoginForm, UserForm, ClientForm
+from .forms import LoginForm, UserForm, ClientFormSet, RestaurantForm
 from django.views.generic import CreateView, FormView, TemplateView
 from .models import Client
 
 
 # Create your views here.
-def new_user(request):
-    error = False
+class NewUser(CreateView):
+    model = User
+    template_name = 'Dashboard/new-user-form.html'
+    form_class = UserForm
+    success_url = '/'
 
-    if request.method == 'POST':
-        user_form = UserForm(request.POST)
-        client_form = ClientForm(request.POST)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.object = None
 
-        if user_form.is_valid() and client_form.is_valid():
-            # E-mail check
-            repeat_email = User.objects.filter(
-                email=user_form.cleaned_data["email"])
-            # Username check
-            repeat_user = User.objects.filter(
-                username=user_form.cleaned_data["username"])
+    def get(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        detalle_cliente = ClientFormSet()
+        return self.render_to_response(self.get_context_data(form=form, detalle_client_form_set=detalle_cliente))
 
-            if not repeat_email.exists():
-                user = user_form.save()
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        client_form_set = ClientFormSet(request.POST)
+        if form.is_valid() and client_form_set.is_valid():
 
-                client = client_form.save(commit=False)
-                client.user = user
+            return self.form_valid(form, client_form_set)
+        else:
+            return self.form_invalid(form, client_form_set)
 
-                client_form.save()
+    def form_valid(self, form, client_form_set):
+        self.object = form.save()
+        self.object.set_password(form.cleaned_data['password'])
+        self.object.save()
+        self.object= authenticate(username=self.object.username, password=form.cleaned_data['password'])
+        client_form_set.instance = self.object
+        client_form_set.save()
+        return HttpResponseRedirect(self.success_url)
 
-                username = user_form.cleaned_data.get('username')
-                password = user_form.cleaned_data.get('password')
-                user = authenticate(username=username, password=password)
-                login(request, user)
-
-                return redirect('/')
-    else:
-        user_form = UserForm()
-        client_form = ClientForm()
-
-    context = {'user_form': user_form, 'client_form': client_form}
-
-    return render(request, 'Dashboard/new-user-form.html', context)
+    def form_invalid(self, form, client_form_set):
+        return self.render_to_response(self.get_context_data(form=form, detalle_client_form_set=client_form_set))
 
 class LoginView(FormView):
     form_class = AuthenticationForm
@@ -72,3 +76,28 @@ class LoginView(FormView):
 
 class Home(TemplateView):
     template_name = "Dashboard/index.html"
+
+class CreateRestaurant(LoginRequiredMixin, CreateView):
+    form_class = RestaurantForm
+    template_name = "Dashboard/new_restaurant.html"
+    success_url = reverse_lazy("Dashboard:home")
+
+    login_url = 'Dashboard:login'
+
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        if form.is_valid():
+            restaurant = form.save(commit=False)
+            restaurant.owner = self.get_object()
+            restaurant.save()
+            return super(CreateRestaurant, self).form_valid(form)
+        else:
+            return super(CreateRestaurant, self).form_invalid(form)
+
+    def get_object(self):
+        client = Client.objects.get(user=self.request.user)
+        return client
+    
+def logout_view(request):
+    logout(request)
+    return render(request, 'Dashboard/index.html')

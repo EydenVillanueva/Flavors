@@ -1,79 +1,46 @@
-<!DOCTYPE html>
-<html lang="es">
+{% extends 'Dashboard/base_registros.html' %}
 
-<head>
-	<title>Flavors | Iniciar Sesión</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	{% load static %}
-	<link rel="icon" type="image/png" href="{% static 'Dashboard/images/icons/favicon.ico' %}" />
-	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{% static 'Dashboard/vendor/bootstrap/css/bootstrap.min.css' %}">
-	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{% static 'Dashboard/css/util.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'Dashboard/css/main.css' %}">
-	<!--===============================================================================================-->
-</head>
+{% block titulo %}
+    Login
+{% endblock titulo %}
 
-<body>
 
-	<div class="limiter">
-		<div class="container-login100">
-			<div class="wrap-login100">
-				<div class="login100-form-title"
-					style="background-image: url('{% static 'Dashboard/images/bg-02.jpg' %}');">
+{% block form %}
+    <form class="login100-form validate-form" method="POST">
+        {% csrf_token %}
 
-				</div>
+        {% if form.non_field_errors %}
+            <p style="color:red; margin-bottom: 5px">
+                Usuario o contraseña incorrectos, prueba de nuevo.
+            </p>
+        {% endif %}
 
-				<form class=" login100-form validate-form" method="POST">
-					{% csrf_token %}
+        <div class="wrap-input100 validate-input m-b-26" data-validate="Ingrese un usuario">
+            <span class="label-input100">{{ form.username.label}}</span>
+            {{ form.username}}
+            <span class="focus-input100"></span>
+        </div>
 
-					{% if form.non_field_errors %}
-					<p style="color:red; margin-bottom: 10px">Usuario o contraseña incorrectos, prueba de nuevo.</p>
-					{% endif %}
+        <div class="wrap-input100 validate-input m-b-18" data-validate="Ingrese una contraseña">
+            <span class="label-input100">{{ form.password.label }}</span>
+            {{ form.password }}
+            <span class="focus-input100"></span>
+        </div>
 
-					<div class="wrap-input100 validate-input m-b-26" data-validate="Ingrese un usuario">
-						<span class="label-input100">{{ form.username.label}}</span>
-						{{ form.username}}
-						<span class="focus-input100"></span>
-					</div>
+        <div class="flex-sb-m w-full p-b-30">
+            <div class="contact100-form-checkbox">
+                ¿No tienes cuenta?
+            </div>
 
-					<div class="wrap-input100 validate-input m-b-18" data-validate="Ingrese una contraseña">
-						<span class="label-input100">{{ form.password.label }}</span>
-						{{ form.password }}
-						<span class="focus-input100"></span>
-					</div>
-
-					<div class="flex-sb-m w-full p-b-30">
-						<div class="contact100-form-checkbox">
-							¿No tienes cuenta?
-						</div>
-
-						<div>
-							<a href="{% url 'Dashboard:new_user' %}" class="txt1">
-								Registrate
-							</a>
-						</div>
-					</div>
-					<button class="login100-form-btn" type="submit">
-						Acceder
-					</button>
-					<!-- {% if error %}
-					<div class="contact100-form-checkbox" style="color:red;">
-						verifique sus datos
-					</div> -->
-					{% endif %}
-				</form>
-
-			</div>
-		</div>
-	</div>
-
-	<script src="{% static 'Dashboard/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
-	<!--===============================================================================================-->
-	<script src="{% static 'Dashboard/js/main1.js' %}"></script>
-
-</body>
-
-</html>
+            <div>
+                <a href="{% url 'Dashboard:new_user' %}" class="txt1" style="color:rgb(204, 31, 31); font-weight: bold; font-size: 1.1rem;">
+                    Registrate
+                </a>
+            </div>
+        </div>
+        <button class="login100-form-btn" type="submit">
+            Acceder
+        </button>
+    </form>
+{% endblock form %}

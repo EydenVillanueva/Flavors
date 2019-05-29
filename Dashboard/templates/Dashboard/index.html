@@ -1,306 +1,295 @@
 {% extends 'Dashboard/base.html' %}
 {% load static %}
 {% block title %}Principal {% endblock title %}
+
 {% block header %}
 
-    <div class="container">
+<div class="container">
 
-      <div id="logo" class="pull-left">
-      <a href="#" style="color:white", font-size="40p">Flavors</a>
-        <!-- Uncomment below if you prefer to use a text logo -->
-        <!--<h1><a href="#hero">Regna</a></h1>-->
-      </div>
+  <div id="logo" class="pull-left"">
+    <a href="{% url 'Dashboard:home' %}">
+      <img src="{% static 'Dashboard/img/icon.png' %}" alt="Flavors" srcset="">
+    </a>
+  </div>
 
-      <nav id="nav-menu-container">
-        <ul class="nav-menu">
-          <li class="menu-active"><a href="#hero">Home</a></li>
-          <li><a href="#about">What is Flavors?</a></li>
-          <li><a href="#">System Access</a></li>
-
-          {% if not user.is_authenticated %}
-          <li><a href="{% url 'Dashboard:login' %}">Log in</a></li>
-          {% else %}
-          <li><a href="#">{{ user.username }}</a></li>
-          {% endif %}
-
-          <li><a href="#contact">Contact Us</a></li>
-        </ul>
-      </nav><!-- #nav-menu-container -->
-    </div>
+  <nav id="nav-menu-container">
+    <ul class="nav-menu">
+      {% if not user.is_authenticated %}
+      <li><a href="{% url 'Dashboard:login' %}">Entra</a></li>
+      <li><a href="{% url 'Dashboard:new_user' %}">Registrate</a></li>
+      {% else %}
+      <li><a href="#">{{ user.username }}</a></li>
+      <li><a href="{% url 'Dashboard:new_restaurant' %}">Registrar restaurante</a></li>
+      <li><a href="{% url 'logout' %}">Logout</a></li>
+      {% endif %}
+    </ul>
+  </nav><!-- #nav-menu-container -->
+</div>
 {% endblock header %}
 
 
 {% block main %}
-     <section id="about">
-      <div class="container">
-        <div class="row about-container">
+<section id="about">
+  <div class="container">
+    <div class="row about-container">
 
-          <div class="col-lg-6 content order-lg-1 order-2">
-            <h2 class="title">About Us</h2>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            </p>
+      <div class="col-lg-6 content order-lg-1 order-2">
+        <h2 class="title">Sobre Nosotros.</h2>
+        <p>
+          Somos la primera plataforma enfocada a los sabores de los platillos. ¿Qué se te antoja hoy?
+        </p>
 
-            <div class="icon-box wow fadeInUp">
-              <div class="icon"><i class="fa fa-cutlery"></i></div>
-              <h4 class="title"><a href="">Food</a></h4>
-              <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>
-            </div>
+        <div class="icon-box wow fadeInUp">
+          <div class="icon"><i class="fa fa-cutlery"></i></div>
+          <h4 class="title"><a href="">Imagina</a></h4>
+          <p class="description">Todo inicia con tu antojo. ¿Algo dulce, salado, picante? Tu imaginación es el límite</p>
+        </div>
 
-            <div class="icon-box wow fadeInUp" data-wow-delay="0.2s">
-              <div class="icon"><i class="fa fa-map"></i></div>
-              <h4 class="title"><a href="">Ubication</a></h4>
-              <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-            </div>
+        <div class="icon-box wow fadeInUp" data-wow-delay="0.2s">
+          <div class="icon"><i class="fa fa-map"></i></div>
+          <h4 class="title"><a href="">Busca</a></h4>
+          <p class="description">A traves de una búsqueda personalizada encuentra exactamente el platillo que estás buscando.</p>
+        </div>
 
-            <div class="icon-box wow fadeInUp" data-wow-delay="0.4s">
-              <div class="icon"><i class="fa fa-phone"></i></div>
-              <h4 class="title"><a href="">Phone</a></h4>
-              <p class="description">Minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat tarad limino ata</p>
-            </div>
-
-          </div>
-
-          <div class="col-lg-6 background order-lg-2 order-1 wow fadeInRight"></div>
+        <div class="icon-box wow fadeInUp" data-wow-delay="0.4s">
+          <div class="icon"><i class="fa fa-phone"></i></div>
+          <h4 class="title"><a href="">Come</a></h4>
+          <p class="description">No pierdas mas el tiempo y pide tu platillo a traves de cualquiera de la apps de comida con las que trabajamos.</p>
         </div>
 
       </div>
-    </section><!-- #about -->
+
+      <div class="col-lg-6 background order-lg-2 order-1 wow fadeInRight"></div>
+    </div>
+
+  </div>
+</section><!-- #about -->
 
 
-    <!--==========================
+<!--==========================
      Information
     ============================-->
-    <section id="call-to-action">
-      <div class="container wow fadeIn">
-        <div class="row">
-          <div class="col-lg-9 text-center text-lg-left">
-            <h3 class="cta-title">Information</h3>
-            <p class="cta-text"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          </div>
-          <div class="col-lg-3 cta-btn-container text-center">
-            <a class="cta-btn align-middle" href="#">Button</a>
-          </div>
-        </div>
-
+<section id="call-to-action">
+  <div class="container wow fadeIn">
+    <div class="row">
+      <div class="col-lg-9 text-center text-lg-left">
+        <h3 class="cta-title">Información</h3>
+        <p class="cta-text"> Conoce nuestra forma de trabajar y como nos preocupamos por brindar el mejor servicio.</p>
       </div>
-    </section><!-- Information -->
-    <!--==========================
+      <div class="col-lg-3 cta-btn-container text-center">
+        <a class="cta-btn align-middle" href="#">Enterate</a>
+      </div>
+    </div>
+
+  </div>
+</section><!-- Information -->
+<!--==========================
       Portfolio Section
     ============================-->
-    <section id="portfolio">
-      <div class="container wow fadeInUp">
-        <div class="section-header">
-          <h3 class="section-title">Portfolio</h3>
-          <p class="section-description" style="color:black;">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque</p>
-        </div>
-        <div class="row">
+<section id="portfolio">
+  <div class="container wow fadeInUp">
+    <div class="section-header">
+      <h3 class="section-title">Restaurantes</h3>
+      <p class="section-description" style="color:black;">Nos enorgullece trabajar con los mejores restaurantes para llevar los mejores sabores hacia tí</p>
+    </div>
+    <div class="row">
 
 
-        </div>
-        <div class="row" id="portfolio-wrapper">
-          <div class="col-lg-3 col-md-6 portfolio-item filter-app">
-            <a href="">
-              <img src="{% static 'Dashboard/img/portfolio/app1.jpg' %}" alt="">
-              <div class="details">
-                <h4>App 1</h4>
-                <span>Alored dono par</span>
-              </div>
-            </a>
+    </div>
+    <div class="row" id="portfolio-wrapper">
+      <div class="col-lg-3 col-md-6 portfolio-item filter-app">
+        <a href="">
+          <img src="{% static 'Dashboard/img/portfolio/app1.jpg' %}" alt="">
+          <div class="details">
+            <h4>Savora Grill</h4>
+            <span>Comida Italiana</span>
           </div>
-
-          <div class="col-lg-3 col-md-6 portfolio-item filter-app">
-            <a href="">
-              <img src="{% static 'Dashboard/img/portfolio/app3.jpg' %}" alt="">
-              <div class="details">
-                <h4>App 3</h4>
-                <span>Alored dono par</span>
-              </div>
-            </a>
-          </div>
-
-             <div class="col-lg-3 col-md-6 portfolio-item filter-app">
-            <a href="">
-              <img src="{% static 'Dashboard/img/portfolio/app2.jpg' %}" alt="">
-              <div class="details">
-                <h4>App 2</h4>
-                <span>Alored dono par</span>
-              </div>
-            </a>
-          </div>
-
-          <div class="col-lg-3 col-md-6 portfolio-item filter-card">
-            <a href="">
-              <img src="{% static 'Dashboard/img/portfolio/card1.jpg' %}" alt="">
-              <div class="details">
-                <h4>Card 1</h4>
-                <span>Alored dono par</span>
-              </div>
-            </a>
-          </div>
-
-
-            </a>
-          </div>
-
-        </div>
-
+        </a>
       </div>
-    </section><!-- #portfolio -->
 
-    <!--==========================
+      <div class="col-lg-3 col-md-6 portfolio-item filter-app">
+        <a href="">
+          <img src="{% static 'Dashboard/img/portfolio/app3.jpg' %}" alt="">
+          <div class="details">
+            <h4>Canjun Grill</h4>
+            <span>Los mejores cortes de carne</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="col-lg-3 col-md-6 portfolio-item filter-app">
+        <a href="">
+          <img src="{% static 'Dashboard/img/portfolio/app2.jpg' %}" alt="">
+          <div class="details">
+            <h4>Hamburguesas Toñito</h4>
+            <span>Deliciosas hamburguesas</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="col-lg-3 col-md-6 portfolio-item filter-card">
+        <a href="">
+          <img src="{% static 'Dashboard/img/portfolio/card1.jpg' %}" alt="">
+          <div class="details">
+            <h4>El taquito</h4>
+            <span>Los mejores tacos</span>
+          </div>
+        </a>
+      </div>
+
+
+      </a>
+    </div>
+
+  </div>
+
+  </div>
+</section><!-- #portfolio -->
+
+<!--==========================
      Plan Section
     ============================-->
-    <section id="team">
-      <div class="container wow fadeInUp">
-        <div class="section-header">
-          <h3 class="section-title">Packages</h3>
-          <p class="section-description" style="color:black;">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque</p>
+<section id="team">
+  <div class="container wow fadeInUp">
+    <div class="section-header">
+      <h3 class="section-title">Planes de Subscripción</h3>
+      <p class="section-description" style="color:black;">¡Encuentra el Plan hecho a tu medida y subscríbete!</p>
+    </div>
+    <div class="row" >
+      <div class="col-lg-3 col-md-6">
+        <div class="member">
+          <div class="pic"><img src="{% static 'Dashboard/img/simple.png' %}" alt=""></div>
+          <h4>Plan Sencillo</h4>
+          <span>Obtén acceso al panel de control, y desde allí administra tus platillos.</span>
+
         </div>
-        <div class="row">
-          <div class="col-lg-3 col-md-6">
-            <div class="member">
-              <div class="pic"><img src="{% static 'Dashboard/img/das.png' %}" alt=""></div>
-              <h4>Plan 1</h4>
-              <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
-
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6">
-            <div class="member">
-              <div class="pic"><img src="{% static 'Dashboard/img/das.png' %}" alt=""></div>
-              <h4>plan2</h4>
-              <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6">
-            <div class="member">
-              <div class="pic"><img src="{% static 'Dashboard/img/das.png' %}" alt=""></div>
-              <h4>plan3</h4>
-              <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6">
-            <div class="member">
-              <div class="pic"><img src="{% static 'Dashboard/img/das.png' %}" alt=""></div>
-              <h4>plan4</h4>
-              <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
-            </div>
-          </div>
-        </div>
-
       </div>
-    </section><!-- #team -->
 
-    <!--==========================
+      <div class="col-lg-3 col-md-6">
+        <div class="member">
+          <div class="pic"><img src="{% static 'Dashboard/img/premium.png' %}" alt=""></div>
+          <h4>Plan Premium</h4>
+          <span>Obtén acceso al panel de control y ten acceso a privilegios exclusivos</span>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <div class="member">
+          <div class="pic"><img src="{% static 'Dashboard/img/all.png' %}" alt=""></div>
+          <h4>Plan Ilimitado</h4>
+          <span>Obtén acceso al panel de control y administra un número ilimitado de restaurantes y platillos.</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section><!-- #team -->
+
+<!--==========================
       Contact Section
     ============================-->
-    <section id="contact">
-      <div class="container wow fadeInUp">
-        <div class="section-header">
-          <h3 class="section-title">Contact Us</h3>
-          <p class="section-description" style="color:black;">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque</p>
+<section id="contact">
+  <div class="container wow fadeInUp">
+    <div class="section-header">
+      <h3 class="section-title">Contáctanos</h3>
+      <p class="section-description" style="color:black;">Cualquier duda o sugerencia estamos para escucharte y atenderte</p>
+    </div>
+  </div>
+
+  <!-- Uncomment below if you wan to use dynamic maps -->
+  <div class="container wow fadeInUp mt-5">
+    <div class="row justify-content-center">
+
+      <div class="col-lg-3 col-md-4">
+
+        <div class="info">
+          <div>
+            <i class="fa fa-map-marker"></i>
+            <p>A108 Adam Street<br>New York, NY 535022</p>
+          </div>
+
+          <div>
+            <i class="fa fa-envelope"></i>
+            <p>info@example.com</p>
+          </div>
+
+          <div>
+            <i class="fa fa-phone"></i>
+            <p>+1 5589 55488 55s</p>
+          </div>
         </div>
-      </div>
 
-      <!-- Uncomment below if you wan to use dynamic maps -->
-      <div class="container wow fadeInUp mt-5">
-        <div class="row justify-content-center">
-
-          <div class="col-lg-3 col-md-4">
-
-            <div class="info">
-              <div>
-                <i class="fa fa-map-marker"></i>
-                <p>A108 Adam Street<br>New York, NY 535022</p>
-              </div>
-
-              <div>
-                <i class="fa fa-envelope"></i>
-                <p>info@example.com</p>
-              </div>
-
-              <div>
-                <i class="fa fa-phone"></i>
-                <p>+1 5589 55488 55s</p>
-              </div>
-            </div>
-
-            <div class="social-links">
-              <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
-              <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
-              <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
-              <a href="#" class="google-plus"><i class="fa fa-google-plus"></i></a>
-              <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
-            </div>
-
-          </div>
-
-          <div class="col-lg-5 col-md-8">
-            <div class="form">
-              <div id="sendmessage">Your message has been sent. Thank you!</div>
-              <div id="errormessage"></div>
-              <form action="" method="post" role="form" class="contactForm">
-                <div class="form-group">
-                  <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
-                  <div class="validation"></div>
-                </div>
-                <div class="form-group">
-                  <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
-                  <div class="validation"></div>
-                </div>
-                <div class="form-group">
-                  <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
-                  <div class="validation"></div>
-                </div>
-                <div class="form-group">
-                  <textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>
-                  <div class="validation"></div>
-                </div>
-                <div class="text-center"><button type="submit">Send Message</button></div>
-              </form>
-            </div>
-          </div>
-
+        <div class="social-links">
+          <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
+          <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
+          <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
+          <a href="#" class="google-plus"><i class="fa fa-google-plus"></i></a>
+          <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
         </div>
 
       </div>
-    </section><!-- #contact -->
+
+      <div class="col-lg-5 col-md-8">
+        <div class="form">
+          <div id="sendmessage">Your message has been sent. Thank you!</div>
+          <div id="errormessage"></div>
+          <form action="" method="post" role="form" class="contactForm">
+            <div class="form-group">
+              <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4"
+                data-msg="Please enter at least 4 chars" />
+              <div class="validation"></div>
+            </div>
+            <div class="form-group">
+              <input type="email" class="form-control" name="email" id="email" placeholder="Your Email"
+                data-rule="email" data-msg="Please enter a valid email" />
+              <div class="validation"></div>
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject"
+                data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+              <div class="validation"></div>
+            </div>
+            <div class="form-group">
+              <textarea class="form-control" name="message" rows="5" data-rule="required"
+                data-msg="Please write something for us" placeholder="Message"></textarea>
+              <div class="validation"></div>
+            </div>
+            <div class="text-center"><button type="submit">Send Message</button></div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section><!-- #contact -->
 {% endblock main %}
 
 
 
 
 
-  <!--==========================
+<!--==========================
     Footer
   ============================-->
-     {% block footer %}
-      <div class="footer-top">
-      <div class="container">
+{% block footer %}
+<div class="footer-top">
+  <div class="container">
 
-      </div>
-    </div>
+  </div>
+</div>
 
-    <div class="container">
-      <div class="copyright">
-        &copy; Copyright <strong>Flavors</strong>. All Rights Reserved
-      </div>
-      <div class="credits">
-        <!--
+<div class="container">
+  <div class="copyright">
+    &copy; Copyright <strong>Flavors</strong>. All Rights Reserved
+  </div>
+  <div class="credits">
+    <!--
           All the links in the footer should remain intact.
           You can delete the links only if you purchased the pro version.
           Licensing information: https://bootstrapmade.com/license/
           Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Regna
         -->
-      </div>
-    </div>
-     {% endblock footer %}
-
-
-
-
-
+  </div>
+</div>
+{% endblock footer %}
