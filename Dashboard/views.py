@@ -10,7 +10,7 @@ from django.http.response import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from .forms import LoginForm, UserForm, ClientFormSet, RestaurantForm
+from .forms import LoginForm, UserForm, ClientFormSet, RestaurantForm, ContactForm
 from django.views.generic import CreateView, FormView, TemplateView
 from .models import Client
 
@@ -53,6 +53,17 @@ class NewUser(CreateView):
 
     def form_invalid(self, form, client_form_set):
         return self.render_to_response(self.get_context_data(form=form, detalle_client_form_set=client_form_set))
+
+
+class ContactView(FormView):
+    template_name = 'Dashboard/index.html'
+    form_class = ContactForm
+    success_url = '/'
+
+    def form_valid(self, form):
+        form.send_email()
+        return super().form_valid(form)
+
 
 class LoginView(FormView):
     form_class = AuthenticationForm
