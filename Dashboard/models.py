@@ -16,21 +16,29 @@ class Timestamp(models.Model):
 
 # Client model that will be used to register new clients in the system
 class Client(models.Model):
+    PLAN_CHOICES = [
+        ('S', 'Sencillo'),
+        ('P', 'Premium'),
+        ('I', 'Ilimitado'),
+    ]
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    phone = models.CharField(max_length=15,null=True, blank=True)
-    plan = models.CharField(max_length=50)
+    phone = models.CharField(max_length=15, null=True, blank=True)
+    plan = models.CharField(max_length=1, choices=PLAN_CHOICES, default='S')
     city = models.CharField(max_length=50)
 
     def __str__(self):
         return self.user.username
 
 # Restaurant model to every restaurant saved in the system.
+
+
 class Restaurant(Timestamp):
     name = models.CharField(max_length=50)
     address = models.TextField()
     logo_url = models.URLField(max_length=200)
     web_site = models.URLField(max_length=200)
     status = models.BooleanField('open', blank=False, null=False, default=True)
+    active = models.BooleanField('active', blank=False, null=False, default=True)
     owner = models.ForeignKey(Client, on_delete=models.CASCADE)
 
     def __str__(self):
