@@ -88,6 +88,7 @@ class LoginView(FormView):
 class Home(TemplateView):
     template_name = "Dashboard/index.html"
 
+
 class CreateRestaurant(LoginRequiredMixin, CreateView):
     form_class = RestaurantForm
     template_name = "Dashboard/new_restaurant.html"
@@ -108,7 +109,8 @@ class CreateRestaurant(LoginRequiredMixin, CreateView):
     def get_object(self):
         client = Client.objects.get(user=self.request.user)
         return client
-    
+
+
 def logout_view(request):
     logout(request)
     return render(request, 'Dashboard/index.html')
