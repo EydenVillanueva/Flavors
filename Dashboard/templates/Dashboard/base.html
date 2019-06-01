@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="utf-8">
   <title>{% block title %} {% endblock title %}</title>
@@ -12,7 +12,8 @@
   <link href="{% static 'Dashboard/img/favicon.png' %}" rel="icon">
   <link href="{% static 'Dashboard/img/apple-toucch-icon.png' %}" rel="apple-touch-icon">
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Poppins:300,400,500,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Poppins:300,400,500,700"
+    rel="stylesheet">
   <!-- Bootstrap CSS File -->
   <link href="{% static 'Dashboard/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
   <!-- Libraries CSS Files -->
@@ -23,6 +24,7 @@
   {% block links %}
   {% endblock links %}
 </head>
+
 <body>
   <header id="header">
     {% block header %}
@@ -41,7 +43,7 @@
     </div>
   </section><!-- #hero -->
   {% endblock hero %}
-  
+
   <main id="main">
     {% block main %}
 
@@ -49,14 +51,14 @@
   </main>
 
   <footer id="footer">
-  {% block footer %}
+    {% block footer %}
 
-  {% endblock footer %}
+    {% endblock footer %}
     <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
   </footer>
 
 
- <!-- JavaScript Libraries -->
+  <!-- JavaScript Libraries -->
   <script src="{% static 'Dashboard/vendor/jquery/jquery.min.js' %}"></script>
   <script src="{% static 'Dashboard/vendor/jquery/jquery-migrate.min.js' %}"></script>
   <script src="{% static 'Dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
@@ -66,7 +68,7 @@
   <script src="{% static 'Dashboard/vendor/counterup/counterup.min.js' %}"></script>
   <script src="{% static 'Dashboard/vendor/superfish/hoverIntent.js' %}"></script>
   <script src="{% static 'Dashboard/vendor/superfish/superfish.min.js' %}"></script>
-  
+
   <!-- Template Main Javascript File -->
   <script src="{% static 'Dashboard/js/main.js' %}"></script>
   {% block libraries %}
@@ -74,4 +76,5 @@
   {% endblock libraries %}
 
 </body>
+
 </html>

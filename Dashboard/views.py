@@ -16,6 +16,12 @@ from .models import Client
 
 
 # Create your views here.
+
+''' 
+------------------------------------------
+Views sistema de autenticación de usuarios
+------------------------------------------
+'''
 class NewUser(CreateView):
     model = User
     template_name = 'Dashboard/new-user-form.html'
@@ -55,20 +61,10 @@ class NewUser(CreateView):
         return self.render_to_response(self.get_context_data(form=form, detalle_client_form_set=client_form_set))
 
 
-class ContactView(FormView):
-    template_name = 'Dashboard/index.html'
-    form_class = ContactForm
-    success_url = '/'
-
-    def form_valid(self, form):
-        form.send_email()
-        return super().form_valid(form)
-
-
 class LoginView(FormView):
     form_class = AuthenticationForm
     template_name = 'Dashboard/login.html'
-    success_url = reverse_lazy("Dashboard:home")
+    success_url = reverse_lazy("Dashboard:panel")
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
@@ -85,8 +81,40 @@ class LoginView(FormView):
             return super(LoginView, self).form_invalid(form)
 
 
+def logout_view(request):
+    logout(request)
+    return render(request, 'Dashboard/index.html')
+
+
+''' 
+------------------------------------------
+Views landing page
+------------------------------------------
+'''
+
+
 class Home(TemplateView):
     template_name = "Dashboard/index.html"
+
+class ContactView(FormView):
+    template_name = 'Dashboard/index.html'
+    form_class = ContactForm
+    success_url = '/'
+
+    def form_valid(self, form):
+        form.send_email()
+        return super().form_valid(form)
+
+
+''' 
+------------------------------------------
+Views panel de control
+------------------------------------------
+'''
+
+class Panel(LoginRequiredMixin,TemplateView):
+    template_name = "Panel/index.html"
+    login_url = 'Dashboard:login'
 
 
 class CreateRestaurant(LoginRequiredMixin, CreateView):
@@ -111,6 +139,3 @@ class CreateRestaurant(LoginRequiredMixin, CreateView):
         return client
 
 
-def logout_view(request):
-    logout(request)
-    return render(request, 'Dashboard/index.html')
