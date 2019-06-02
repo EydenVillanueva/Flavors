@@ -139,3 +139,11 @@ class CreateRestaurant(LoginRequiredMixin, CreateView):
         return client
 
 
+class UpdateRestaurant(LoginRequiredMixin, UpdateView):
+    model = Restaurant
+    form_class = RestaurantForm
+    template_name = "Panel/update_restaurant.html"
+    success_url = reverse_lazy("Dashboard:panel")
+
+    login_url = 'Dashboard:login'
+

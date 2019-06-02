@@ -115,7 +115,8 @@ class RestaurantForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(RestaurantForm, self).__init__(*args, **kwargs)
         for field in self.fields:
-            self.fields[field].widget.attrs.update({'class': 'input100'})
+            self.fields[field].widget.attrs.update({'class': 'form-control form-control-user'})
+        self.fields['address'].widget.attrs.update({'rows': 3})
 
 
 class ContactForm(forms.Form):

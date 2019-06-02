@@ -13,4 +13,6 @@ urlpatterns = [
     #Urls del panel de control
     path('panel/', views.Panel.as_view(),name="panel"),
     path('new_restaurant/', views.CreateRestaurant.as_view(), name="new_restaurant"),
+    path('update_restaurant/<int:pk>', views.UpdateRestaurant.as_view(), name="update_restaurant"),
+    
 ]
