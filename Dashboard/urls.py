@@ -1,6 +1,7 @@
 from django.urls import path
-from . import views
+from .import views
 from django.contrib.auth import views as auth_views
+
 
 app_name = 'Dashboard'
 
@@ -13,4 +14,6 @@ urlpatterns = [
     #Urls del panel de control
     path('panel/', views.Panel.as_view(),name="panel"),
     path('new_restaurant/', views.CreateRestaurant.as_view(), name="new_restaurant"),
+    path('delete_list/', views.delete_list_restaurant, name="delete_list_restaurant"),
+    path('delete/<id_restaurant>/', views.delete_restaurant, name="delete_restaurant"),
 ]

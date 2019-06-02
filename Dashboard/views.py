@@ -13,7 +13,7 @@ from django.urls import reverse_lazy
 from .forms import LoginForm, UserForm, ClientFormSet, RestaurantForm, ContactForm
 from django.views.generic import CreateView, FormView, TemplateView
 from .models import Client
-
+from Dashboard.models import Restaurant
 
 # Create your views here.
 
@@ -137,5 +137,25 @@ class CreateRestaurant(LoginRequiredMixin, CreateView):
     def get_object(self):
         client = Client.objects.get(user=self.request.user)
         return client
+
+
+''' 
+------------------------------------------
+Views Restaurant
+------------------------------------------
+'''
+
+def delete_list_restaurant(request):
+    restaurant = Restaurant.objects.all().order_by('id')
+    contexto = {'restaurants':restaurant}
+    return render(request,'Restaurant/delete_list_restaurant.html', contexto)
+
+def delete_restaurant(request, id_restaurant):
+    restaurant = Restaurant.objects.get(id=id_restaurant)
+    if request.method == 'POST':
+        restaurant.active = False
+        restaurant.save()
+        return redirect('Dashboard:delete_list_restaurant')
+    return render(request, 'Restaurant/delete_restaurant.html',{'restaurant':restaurant})
 
 
