@@ -11,9 +11,15 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from .forms import LoginForm, UserForm, ClientFormSet, RestaurantForm, ContactForm
+<<<<<<< HEAD
 from django.views.generic import CreateView, FormView, UpdateView, TemplateView
 from .models import Client, Restaurant
 
+=======
+from django.views.generic import CreateView, FormView, TemplateView
+from .models import Client
+from Dashboard.models import Restaurant
+>>>>>>> 6bc969978a59a0e3d8af1075e3fa0910040e68e1
 
 # Create your views here.
 
@@ -146,4 +152,23 @@ class UpdateRestaurant(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy("Dashboard:panel")
 
     login_url = 'Dashboard:login'
+''' 
+------------------------------------------
+Views Restaurant
+------------------------------------------
+'''
+
+def delete_list_restaurant(request):
+    restaurant = Restaurant.objects.all().order_by('id')
+    contexto = {'restaurants':restaurant}
+    return render(request,'Restaurant/delete_list_restaurant.html', contexto)
+
+def delete_restaurant(request, id_restaurant):
+    restaurant = Restaurant.objects.get(id=id_restaurant)
+    if request.method == 'POST':
+        restaurant.active = False
+        restaurant.save()
+        return redirect('Dashboard:delete_list_restaurant')
+    return render(request, 'Restaurant/delete_restaurant.html',{'restaurant':restaurant})
+
 
