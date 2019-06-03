@@ -11,15 +11,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from .forms import LoginForm, UserForm, ClientFormSet, RestaurantForm, ContactForm
-<<<<<<< HEAD
 from django.views.generic import CreateView, FormView, UpdateView, TemplateView
 from .models import Client, Restaurant
 
-=======
-from django.views.generic import CreateView, FormView, TemplateView
-from .models import Client
-from Dashboard.models import Restaurant
->>>>>>> 6bc969978a59a0e3d8af1075e3fa0910040e68e1
 
 # Create your views here.
 
