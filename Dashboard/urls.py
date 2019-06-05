@@ -1,5 +1,5 @@
 from django.urls import path
-from .import views
+from Dashboard import views
 from django.contrib.auth import views as auth_views
 
 
@@ -13,13 +13,9 @@ urlpatterns = [
     path('register/', views.NewUser.as_view(), name="new_user"),
     # Urls del panel de control
     path('panel/', views.Panel.as_view(), name="panel"),
-    path('panel/new_restaurant/',
-         views.CreateRestaurant.as_view(), name="new_restaurant"),
-    path('panel/update_restaurant/<int:pk>',
-         views.UpdateRestaurant.as_view(), name="update_restaurant"),
-
-    path('delete_list/', views.delete_list_restaurant,
-         name="delete_list_restaurant"),
-    path('delete/<id_restaurant>/',
-         views.delete_restaurant, name="delete_restaurant"),
+    path('panel/new_restaurant/',views.CreateRestaurant.as_view(), name="new_restaurant"),
+    path('panel/update_restaurant/<int:pk>',views.UpdateRestaurant.as_view(), name="update_restaurant"),
+    path('panel/delete_list/', views.delete_list_restaurant,name="delete_list_restaurant"),
+    path('panel/delete/<id_restaurant>/',views.delete_restaurant, name="delete_restaurant"),
+    path('panel/update_profile/<int:pk>', views.UpdateProfile.as_view(), name="update_profile"),
 ]

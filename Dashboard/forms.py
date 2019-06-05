@@ -83,7 +83,39 @@ class ClientForm(forms.ModelForm):
         self.fields['city'].widget.attrs['placeholder'] = 'Ciudad de Residencia'
 
 
+
+
 ClientFormSet = inlineformset_factory(User, Client, form=ClientForm, validate_min=True)
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('username', 'email')
+
+        labels = {
+            'username': 'Nombre de Usuario',
+            'email': 'Correo Electrónico',
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(UserUpdateForm, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({'class': 'form-control'})
+
+class UpdateProfileForm(forms.ModelForm):
+    class Meta:
+        model = Client
+        fields = ('phone', 'plan', 'city')
+        labels = {
+            'phone': 'Número Telefónico',
+            'plan': 'Plan',
+            'Ciudad': 'City',
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(UpdateProfileForm, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({'class': 'form-control'})
 
 
 class LoginForm(forms.ModelForm):
@@ -115,7 +147,7 @@ class RestaurantForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(RestaurantForm, self).__init__(*args, **kwargs)
         for field in self.fields:
-            self.fields[field].widget.attrs.update({'class': 'form-control form-control-user'})
+            self.fields[field].widget.attrs.update({'class': 'form-control'})
         self.fields['address'].widget.attrs.update({'rows': 3})
 
 

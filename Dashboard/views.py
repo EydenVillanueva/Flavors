@@ -10,7 +10,7 @@ from django.http.response import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from .forms import LoginForm, UserForm, ClientFormSet, RestaurantForm, ContactForm
+from .forms import *
 from django.views.generic import CreateView, FormView, UpdateView, TemplateView
 from .models import Client, Restaurant
 
@@ -119,7 +119,7 @@ class Panel(LoginRequiredMixin,TemplateView):
 
 class CreateRestaurant(LoginRequiredMixin, CreateView):
     form_class = RestaurantForm
-    template_name = "Panel/new_restaurant.html"
+    template_name = "Restaurants/new_restaurant.html"
     success_url = reverse_lazy("Dashboard:panel")
 
     login_url = 'Dashboard:login'
@@ -142,20 +142,55 @@ class CreateRestaurant(LoginRequiredMixin, CreateView):
 class UpdateRestaurant(LoginRequiredMixin, UpdateView):
     model = Restaurant
     form_class = RestaurantForm
-    template_name = "Panel/update_restaurant.html"
+    template_name = "Restaurants/update_restaurant.html"
     success_url = reverse_lazy("Dashboard:panel")
 
     login_url = 'Dashboard:login'
-''' 
-------------------------------------------
-Views Restaurant
-------------------------------------------
-'''
+
+class UpdateProfile(LoginRequiredMixin, UpdateView):
+    model = User
+    template_name = 'Panel/update_profile.html'
+    form_class = UserUpdateForm
+    second_form_class = UpdateProfileForm
+    success_url = reverse_lazy("Dashboard:panel")
+
+    login_url = 'Dashboard:login'
+
+    def get(self, request, *args, **kwargs):
+        super(UpdateProfile, self).get(request, *args, **kwargs)
+
+        if kwargs['pk']:
+            form = UserUpdateForm(instance = self.request.user)
+            form2 = UpdateProfileForm(instance = self.request.user.client)
+
+        return self.render_to_response(self.get_context_data(object=self.object, form=form, form2=form2))
+    
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        user = self.request.user
+        client = self.request.user.client
+
+        form = self.form_class(request.POST, instance=user)
+        form2 = self.second_form_class(request.POST, instance=client)
+
+        if form.is_valid() and form2.is_valid():
+
+            userdata = form.save(commit=False)
+            userdata.save()
+
+            clientdata = form2.save(commit=False)
+            clientdata.user = userdata
+            clientdata.save()
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return self.render_to_response(self.get_context_data(form=form, form2=form2))
+
 
 def delete_list_restaurant(request):
-    restaurant = Restaurant.objects.all().order_by('id')
-    contexto = {'restaurants':restaurant}
-    return render(request,'Restaurant/delete_list_restaurant.html', contexto)
+    restaurants = Restaurant.objects.all().order_by('id')
+    contexto = {'restaurants':restaurants}
+    return render(request,'Restaurants/delete_list_restaurant.html', contexto)
 
 def delete_restaurant(request, id_restaurant):
     restaurant = Restaurant.objects.get(id=id_restaurant)
@@ -163,6 +198,6 @@ def delete_restaurant(request, id_restaurant):
         restaurant.active = False
         restaurant.save()
         return redirect('Dashboard:delete_list_restaurant')
-    return render(request, 'Restaurant/delete_restaurant.html',{'restaurant':restaurant})
+    return render(request, 'Restaurants/delete_restaurant.html',{'restaurant':restaurant})
 
 
