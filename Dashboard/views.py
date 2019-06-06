@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from .forms import *
-from django.views.generic import CreateView, FormView, UpdateView, TemplateView
+from django.views.generic import CreateView, FormView, UpdateView, TemplateView, ListView
 from .models import Client, Restaurant
 
 
@@ -96,6 +96,7 @@ Views landing page
 class Home(TemplateView):
     template_name = "Dashboard/index.html"
 
+
 class ContactView(FormView):
     template_name = 'Dashboard/index.html'
     form_class = ContactForm
@@ -111,6 +112,7 @@ class ContactView(FormView):
 Views panel de control
 ------------------------------------------
 '''
+
 
 class Panel(LoginRequiredMixin,TemplateView):
     template_name = "Panel/index.html"
@@ -146,6 +148,18 @@ class UpdateRestaurant(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy("Dashboard:panel")
 
     login_url = 'Dashboard:login'
+
+
+class ListRestaurant(LoginRequiredMixin, ListView):
+    Error = False
+    model = Restaurant
+    template_name = "Panel/list_restaurant.html"
+
+    def get_queryset(self):
+        queryset = Restaurant.objects.filter(owner=self.request.user.client, active=True)
+        return queryset
+
+
 
 class UpdateProfile(LoginRequiredMixin, UpdateView):
     model = User
