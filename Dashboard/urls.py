@@ -1,6 +1,7 @@
-from django.urls import path
+from django.urls import path, include
 from Dashboard import views
 from django.contrib.auth import views as auth_views
+from django.urls import reverse_lazy
 
 
 app_name = 'Dashboard'
@@ -8,6 +9,14 @@ app_name = 'Dashboard'
 urlpatterns = [
     path('', views.ContactView.as_view(), name='home'),
     # Urls del sistema de autenticación de usuarios
+    path('change-password/', auth_views.PasswordChangeView.as_view(
+        template_name="Dashboard/password_change.html",
+        success_url=reverse_lazy("Dashboard:password_change_done")),name="password_change"),
+
+    path('change-password-done/', auth_views.PasswordChangeView.as_view(
+        template_name="Dashboard/password_change_done.html"),
+        name="password_change_done"),
+
     path('login/', views.LoginView.as_view(), name="login"),
     path('logout/', views.logout_view, name="logout"),
     path('register/', views.NewUser.as_view(), name="new_user"),

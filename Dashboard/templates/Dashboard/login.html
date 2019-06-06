@@ -29,15 +29,15 @@
         </div>
 
         <div class="flex-sb-m w-full p-b-30">
-            <div class="contact100-form-checkbox">
                 ¿No tienes cuenta?
-            </div>
-
-            <div>
-                <a href="{% url 'Dashboard:new_user' %}" class="txt1" style="color:rgb(204, 31, 31); font-weight: bold; font-size: 1.1rem;">
-                    Registrate
-                </a>
-            </div>
+            <a href="{% url 'Dashboard:new_user' %}" class="txt1" style="color:rgb(204, 31, 31); font-weight: bold; font-size: 1.1rem;">
+                Registrate
+            </a>
+        </div>
+        <div class="flex-sb-m w-full p-b-30">
+            <a href="{% url 'Dashboard:new_user' %}" class="txt1" style="color:rgb(204, 31, 31); font-weight: bold; font-size: 1.1rem;">
+                ¿Olvidaste tu contraseña?
+            </a>
         </div>
         <button class="login100-form-btn" type="submit">
             Acceder
