@@ -3,6 +3,7 @@ from django import forms
 from .models import Client, Restaurant
 from django.core.exceptions import ValidationError
 from django.forms.models import inlineformset_factory
+from django.core.mail import send_mail
 
 
 class UserForm(forms.ModelForm):
@@ -42,6 +43,7 @@ class UserForm(forms.ModelForm):
             raise ValidationError(('Nombre de usuario existente.'))
         return username
 
+
 class ClientForm(forms.ModelForm):
     class Meta:
         model = Client
@@ -80,7 +82,40 @@ class ClientForm(forms.ModelForm):
         self.fields['plan'].widget.attrs['placeholder'] = 'Plan'
         self.fields['city'].widget.attrs['placeholder'] = 'Ciudad de Residencia'
 
+
+
+
 ClientFormSet = inlineformset_factory(User, Client, form=ClientForm, validate_min=True)
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('username', 'email')
+
+        labels = {
+            'username': 'Nombre de Usuario',
+            'email': 'Correo Electrónico',
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(UserUpdateForm, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({'class': 'form-control'})
+
+class UpdateProfileForm(forms.ModelForm):
+    class Meta:
+        model = Client
+        fields = ('phone', 'plan', 'city')
+        labels = {
+            'phone': 'Número Telefónico',
+            'plan': 'Plan',
+            'Ciudad': 'City',
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(UpdateProfileForm, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({'class': 'form-control'})
 
 
 class LoginForm(forms.ModelForm):
@@ -112,4 +147,43 @@ class RestaurantForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(RestaurantForm, self).__init__(*args, **kwargs)
         for field in self.fields:
-            self.fields[field].widget.attrs.update({'class': 'input100'})
+            self.fields[field].widget.attrs.update({'class': 'form-control'})
+        self.fields['address'].widget.attrs.update({'rows': 3})
+
+
+class ContactForm(forms.Form):
+    name = forms.CharField(required=True)
+    email = forms.EmailField()
+    subject = forms.CharField()
+    message = forms.CharField(widget=forms.Textarea)
+
+    def __init__(self, *args, **kwargs):
+        super(ContactForm, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({'class': 'form-control'})
+        self.fields['name'].widget.attrs['placeholder'] = 'What is your name?'
+        self.fields['email'].widget.attrs['placeholder'] = 'What is your email?'
+        self.fields['subject'].widget.attrs['placeholder'] = 'What is your subject?'
+        self.fields['message'].widget.attrs['placeholder'] = 'What is your message?'
+
+    def send_email(self):
+        try:
+            self.name = self.cleaned_data.get('name')
+            self.email = self.cleaned_data.get('email')
+            self.subject = self.cleaned_data.get('subject')
+            self.message = self.cleaned_data.get('message')
+            email_to = ['pedroesparzaaa@gmail.com']
+            email_mensaje = '%s: %s enviado por %s' % (self.name, self.message, self.email)
+
+            send_mail(
+                self.subject,
+                email_mensaje,
+                self.email,
+                email_to,
+                fail_silently=False
+            )
+
+        except ValueError:
+            print('Hubo un error al enviar el email')
+
+        return True

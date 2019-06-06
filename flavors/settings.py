@@ -77,13 +77,24 @@ WSGI_APPLICATION = 'flavors.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'db_flavors',
+        'NAME': 'Flavors',
         'USER': 'root',
-        'PASSWORD': '',
+        'PASSWORD': 'root',
         'HOST': 'localhost',
         'PORT': '3306',
+        'OPTIONS': {
+            'read_default_file': '../my.cnf',
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
     }
 }
+
+#Configuraciones para el uso del email en django
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'pedroesparzaaa@gmail.com'
+EMAIL_HOST_PASSWORD = 'pedritoesparzarules'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
