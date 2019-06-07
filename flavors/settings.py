@@ -140,3 +140,5 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 AUTHENTICATION_BACKENDS = (
     'Dashboard.backends.ModelBackend',
 )
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

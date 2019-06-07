@@ -1,41 +1,57 @@
 {% extends "Panel/base.html" %}
 
-{% block title %}
+{% block titulo %}
   Restaurantes
-{% endblock title %}
+{% endblock titulo %}
 
 {% block content %}
 
  <div class="card shadow mb-4">
     <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Lista de Restaurantes</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Lista de Restaurantes</h6>
     </div>
     <div class="card-body">
+        {% if object_list %}
+        <a class="login100-form-btn" href="{% url 'Dashboard:new_restaurant' %}">
+            Nuevo restaurante.
+        </a>
         <div class="table-responsive">
-          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-              <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Address</th>
-                    <!--<th>Logo</th>-->
-                    <th>Website</th>
-                    <th>Options</th>
-                  </tr>
-              </thead>
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                      <th>Nombre</th>
+                      <th>Dirección</th>
+                      <!--<th>Logo</th>-->
+                      <th>Website</th>
+                      <th>Opciones</th>
+                    </tr>
+                </thead>
+  
+                <tbody>
+                {% for object in object_list %}
+                    <tr>
+                      <td>{{ object.name }}</td>
+                      <td>{{ object.address }}</td>
+                      <!--<td><img src="{{ object.logo_url }}"></td>-->
+                      <td>{{ object.web_site }}</td>
+                      <td align="center">
+                        <a href="{% url 'Dashboard:delete_restaurant' object.id %}"><i class="fa fa-trash"></i></a>
+                        <a href="{% url 'Dashboard:update_restaurant' object.id %}"><i class="fas fa-pen-square"></i></a>
+                      </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+          </div>
+        {% else  %}
 
-              <tbody>
-              {% for object in object_list %}
-                  <tr>
-                    <td>{{ object.name }}</td>
-                    <td>{{ object.address }}</td>
-                    <!--<td><img src="{{ object.logo_url }}"></td>-->
-                    <td>{{ object.web_site }}</td>
-                    <td align="center"><i class="fa fa-trash" aria-hidden="true"></i> <a><i class="fas fa-pen-square"></i></a></td>
-                  </tr>
-              {% endfor %}
-              </tbody>
-          </table>
-        </div>
+        <h1 class="h4 text-gray-900 mb-4"> Aún no cuenta con Restaurantes </h1>
+        <a class="login100-form-btn" href="{% url 'Dashboard:new_restaurant' %}">
+            Nuevo restaurante.
+        </a>
+            
+        {% endif %}
+
     </div>
  </div>
 {% endblock content %}

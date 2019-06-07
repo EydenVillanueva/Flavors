@@ -3,7 +3,7 @@ from Dashboard import views
 from django.contrib.auth import views as auth_views
 from django.urls import reverse_lazy
 
-
+#success_url=reverse_lazy("Dashboard:password_reset_done")
 app_name = 'Dashboard'
 
 urlpatterns = [
@@ -16,6 +16,26 @@ urlpatterns = [
     path('change-password-done/', auth_views.PasswordChangeView.as_view(
         template_name="Dashboard/password_change_done.html"),
         name="password_change_done"),
+    
+    path('password_reset/', auth_views.PasswordResetView.as_view(
+        template_name="Dashboard/password_reset_form.html",
+        email_template_name="Dashboard/password_reset_email.html",
+        subject_template_name="Dashboard/password_reset_subject.txt",
+        success_url = reverse_lazy("Dashboard:password_reset_done")),
+        name="password_reset"),
+
+    path('password_reset_done/', auth_views.PasswordResetDoneView.as_view(
+        template_name="Dashboard/password_reset_done.html"),
+        name="password_reset_done"),
+
+    path('password_reset_confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(
+        template_name="Dashboard/password_reset_confirm.html",
+        success_url = reverse_lazy("Dashboard:password_reset_complete")),
+        name="password_reset_confirm"),
+
+    path('reset_done/', auth_views.PasswordResetCompleteView.as_view(
+        template_name="Dashboard/password_reset_complete.html"),
+        name="password_reset_complete"),
 
     path('login/', views.LoginView.as_view(), name="login"),
     path('logout/', views.logout_view, name="logout"),
@@ -27,5 +47,5 @@ urlpatterns = [
     path('panel/delete_list/', views.delete_list_restaurant,name="delete_list_restaurant"),
     path('panel/delete/<id_restaurant>/',views.delete_restaurant, name="delete_restaurant"),
     path('panel/update_profile/<int:pk>', views.UpdateProfile.as_view(), name="update_profile"),
-    path('panel/list_restaurant/<int:pk>', views.ListRestaurant.as_view(), name="list_restaurant"),
+    path('panel/list_restaurant/', views.ListRestaurant.as_view(), name="list_restaurant"),
 ]

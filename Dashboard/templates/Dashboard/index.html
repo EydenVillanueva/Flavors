@@ -18,8 +18,7 @@
       <li><a href="{% url 'Dashboard:login' %}">Entra</a></li>
       <li><a href="{% url 'Dashboard:new_user' %}">Registrate</a></li>
       {% else %}
-      <li><a href="#">{{ user.username }}</a></li>
-      <li><a href="{% url 'Dashboard:new_restaurant' %}">Registrar restaurante</a></li>
+      <li><a href="{% url 'Dashboard:update_profile' user.pk %}">{{ user.username }}</a></li>
       <li><a href="{% url 'Dashboard:panel' %}">Panel</a></li>
       <li><a href="{% url 'Dashboard:logout' %}">Logout</a></li>
       {% endif %}

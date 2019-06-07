@@ -122,7 +122,7 @@ class Panel(LoginRequiredMixin,TemplateView):
 class CreateRestaurant(LoginRequiredMixin, CreateView):
     form_class = RestaurantForm
     template_name = "Restaurants/new_restaurant.html"
-    success_url = reverse_lazy("Dashboard:panel")
+    success_url = reverse_lazy("Dashboard:list_restaurant")
 
     login_url = 'Dashboard:login'
 
@@ -145,7 +145,7 @@ class UpdateRestaurant(LoginRequiredMixin, UpdateView):
     model = Restaurant
     form_class = RestaurantForm
     template_name = "Restaurants/update_restaurant.html"
-    success_url = reverse_lazy("Dashboard:panel")
+    success_url = reverse_lazy("Dashboard:list_restaurant")
 
     login_url = 'Dashboard:login'
 
@@ -211,7 +211,7 @@ def delete_restaurant(request, id_restaurant):
     if request.method == 'POST':
         restaurant.active = False
         restaurant.save()
-        return redirect('Dashboard:delete_list_restaurant')
+        return redirect('Dashboard:list_restaurant')
     return render(request, 'Restaurants/delete_restaurant.html',{'restaurant':restaurant})
 
 
