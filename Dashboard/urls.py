@@ -2,6 +2,7 @@ from django.urls import path, include
 from Dashboard import views
 from django.contrib.auth import views as auth_views
 from django.urls import reverse_lazy
+from .forms import ChangePasswordForm
 
 #success_url=reverse_lazy("Dashboard:password_reset_done")
 app_name = 'Dashboard'
@@ -11,6 +12,7 @@ urlpatterns = [
     # Urls del sistema de autenticación de usuarios
     path('change-password/', auth_views.PasswordChangeView.as_view(
         template_name="Dashboard/password_change.html",
+        form_class=ChangePasswordForm,
         success_url=reverse_lazy("Dashboard:password_change_done")),name="password_change"),
 
     path('change-password-done/', auth_views.PasswordChangeView.as_view(

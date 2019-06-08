@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import PasswordChangeForm
 from django import forms
 from .models import Client, Restaurant
 from django.core.exceptions import ValidationError
@@ -187,3 +188,15 @@ class ContactForm(forms.Form):
             print('Hubo un error al enviar el email')
 
         return True
+
+class ChangePasswordForm(PasswordChangeForm):
+
+    def __init__(self, *args, **kwargs):
+        super(ChangePasswordForm, self).__init__(*args, **kwargs)
+
+        self.fields['old_password'].label = "Contraseña Antigua"
+        self.fields['new_password1'].label = "Nueva Contraseña"
+        self.fields['new_password2'].label = "Repetir Nueva Contraseña"
+
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({'class': 'form-control'})

@@ -95,6 +95,8 @@ EMAIL_HOST_USER = 'pedroesparzaaa@gmail.com'
 EMAIL_HOST_PASSWORD = 'pedritoesparzarules'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'pedroesparzaaa@gmail.com'
+
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -141,4 +143,4 @@ AUTHENTICATION_BACKENDS = (
     'Dashboard.backends.ModelBackend',
 )
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
