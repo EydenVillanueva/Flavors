@@ -47,7 +47,16 @@
         
                                     {{ field.label_tag }} {{ field }}
                                 {% endfor %}
-                            
+                                <label for="plan">Plan Actual</label>
+                                
+                                {% if request.user.client.plan == 'I' %}
+                                    <input class="form-control" type="text" id="plan" value="Ilimitado" disabled>
+                                {% elif request.user.client.plan == 'S'%}
+                                    <input class="form-control" type="text" id="plan" value="Sencillo" disabled>  
+                                {% else %}
+                                    <input class="form-control" type="text" id="plan" value="Premium" disabled>
+                                {% endif %}
+                                    
                             <br>
                             <hr>
                             <br>

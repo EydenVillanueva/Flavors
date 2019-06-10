@@ -1,37 +1,38 @@
 {% extends 'Panel/base.html' %}
 
 {% block titulo %}
-    Actualizar Restaurante
+    Actualizar Plan
 {% endblock titulo %}
-
 
 {% block content %}
     <div class="container">
         <div class="card o-hidden border-0 shadow-lg my-5">
             <div class="card-body p-0">
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-3"></div>
+
+                    <div class="col-lg-6">
                         <div class="p-5">
-                            <div class="text-center">
+                            <div class="text-center mb-5">
                                 <h1
                                     class="h4 text-gray-900 mb-4">
                                     <!-- Titulo del contenido -->
-                                    Actualizar los datos del restaurante
+                                    Actualizar mi plan de pago
                                 </h1>
                             </div>
                             <form class="user" method="POST">
                                 {% csrf_token %}
 
-                                <div class="form-group">
+                                <div class="form-group text-center">
                                     {{ form.as_p }}
+                                    <br/>
+                                    <hr/>
+                                    <br/>
+                                    <button class="btn btn-primary btn-user">
+                                        Actualizar Plan
+                                    </button>
                                 </div>
 
-                                <br/>
-                                <hr/>
-                                <br/>
-                                <button class="btn btn-primary btn-user">
-                                    Actualizar datos
-                                </button>
                             </form>
                         </div>
                     </div>

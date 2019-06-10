@@ -29,7 +29,7 @@ class UserForm(forms.ModelForm):
         self.fields['username'].widget.attrs['placeholder'] = 'Usuario'
         self.fields['password'].widget.attrs['placeholder'] = 'Contraseña'
         self.fields['email'].widget.attrs['placeholder'] = 'Correo'
-        
+
     def clean_email(self):
         email = self.cleaned_data['email']
         query = User.objects.filter(email=email)
@@ -67,7 +67,7 @@ class ClientForm(forms.ModelForm):
         if not(plan):
             raise ValidationError("Ingrese el plan")
         return plan
-    
+
     def clean_city(self):
         city = self.cleaned_data['city']
         if not(city):
@@ -84,9 +84,9 @@ class ClientForm(forms.ModelForm):
         self.fields['city'].widget.attrs['placeholder'] = 'Ciudad de Residencia'
 
 
+ClientFormSet = inlineformset_factory(
+    User, Client, form=ClientForm, validate_min=True)
 
-
-ClientFormSet = inlineformset_factory(User, Client, form=ClientForm, validate_min=True)
 
 class UserUpdateForm(forms.ModelForm):
     class Meta:
@@ -103,13 +103,13 @@ class UserUpdateForm(forms.ModelForm):
         for field in self.fields:
             self.fields[field].widget.attrs.update({'class': 'form-control'})
 
+
 class UpdateProfileForm(forms.ModelForm):
     class Meta:
         model = Client
-        fields = ('phone', 'plan', 'city')
+        fields = ('phone', 'city')
         labels = {
             'phone': 'Número Telefónico',
-            'plan': 'Plan',
             'Ciudad': 'City',
         }
 
@@ -117,6 +117,7 @@ class UpdateProfileForm(forms.ModelForm):
         super(UpdateProfileForm, self).__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].widget.attrs.update({'class': 'form-control'})
+        # self.fields['plan'].widget.attrs.update({'disabled': 'true'})
 
 
 class LoginForm(forms.ModelForm):
@@ -174,7 +175,8 @@ class ContactForm(forms.Form):
             self.subject = self.cleaned_data.get('subject')
             self.message = self.cleaned_data.get('message')
             email_to = ['pedroesparzaaa@gmail.com']
-            email_mensaje = '%s: %s enviado por %s' % (self.name, self.message, self.email)
+            email_mensaje = '%s: %s enviado por %s' % (
+                self.name, self.message, self.email)
 
             send_mail(
                 self.subject,
@@ -188,6 +190,7 @@ class ContactForm(forms.Form):
             print('Hubo un error al enviar el email')
 
         return True
+
 
 class ChangePasswordForm(PasswordChangeForm):
 
