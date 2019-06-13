@@ -1,0 +1,59 @@
+{% extends "Panel/base.html" %}
+
+{% block titulo %}
+  Platillos
+{% endblock titulo %}
+{% block content %}
+
+ <div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Lista de Platillos</h6>
+    </div>
+    <div class="card-body">
+        {% if object_list %}
+        <a class="login100-form-btn" href="{% url 'Dashboard:create_dish' %}">
+            Agregar Platillo.
+        </a>
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                      <th>Nombre</th>
+                      <th>Descripción</th>
+                      <th>Precio</th>
+                      <th>Restaurante</th>
+                      <th>Categoria</th>
+                      <th>Sabor</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                {% for object in object_list %}
+                    <tr>
+                      <td>{{ object.name }}</td>
+                      <td>{{ object.description }}</td>
+                      <td>{{ object.price }}</td>
+                      <td>{{ object.restaurant }}</td>
+                      <td>{{ object.categories }}</td>
+                      <td>{{ object.flavors }}</td>
+                      <td align="center">
+                        <!--<a href="{% url 'Dashboard:delete_restaurant' object.id %}"><i class="fa fa-trash"></i></a>
+                        <a href="{% url 'Dashboard:update_restaurant' object.id %}"><i class="fas fa-pen-square"></i></a>-->
+                      </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+          </div>
+        {% else  %}
+
+        <h1 class="h4 text-gray-900 mb-4"> Aún no cuenta con Platillos </h1>
+        <a class="login100-form-btn" href="{% url 'Dashboard:create_dish' %}">
+            Nuevo Platillo.
+        </a>
+
+        {% endif %}
+
+    </div>
+ </div>
+{% endblock content %}

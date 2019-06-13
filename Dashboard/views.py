@@ -12,7 +12,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from .forms import *
 from django.views.generic import CreateView, FormView, UpdateView, TemplateView, ListView
-from .models import Client, Restaurant
+from .models import Client, Restaurant, Dish, Category, Flavor
 
 
 # Create your views here.
@@ -22,6 +22,8 @@ from .models import Client, Restaurant
 Views sistema de autenticación de usuarios
 ------------------------------------------
 '''
+
+
 class NewUser(CreateView):
     model = User
     template_name = 'Dashboard/new-user-form.html'
@@ -52,7 +54,8 @@ class NewUser(CreateView):
         self.object = form.save()
         self.object.set_password(form.cleaned_data['password'])
         self.object.save()
-        self.object= authenticate(username=self.object.username, password=form.cleaned_data['password'])
+        self.object = authenticate(
+            username=self.object.username, password=form.cleaned_data['password'])
         client_form_set.instance = self.object
         client_form_set.save()
         return HttpResponseRedirect(self.success_url)
@@ -114,7 +117,7 @@ Views panel de control
 '''
 
 
-class Panel(LoginRequiredMixin,TemplateView):
+class Panel(LoginRequiredMixin, TemplateView):
     template_name = "Panel/index.html"
     login_url = 'Dashboard:login'
 
@@ -156,9 +159,32 @@ class ListRestaurant(LoginRequiredMixin, ListView):
     login_url = 'Dashboard:login'
 
     def get_queryset(self):
-        queryset = Restaurant.objects.filter(owner=self.request.user.client, active=True)
+        queryset = Restaurant.objects.filter(
+            owner=self.request.user.client, active=True)
         return queryset
 
+
+class CreateDish(LoginRequiredMixin, CreateView):
+    model = Dish
+    form_class = DishForm
+    template_name = "Panel/create_dish.html"
+    success_url = reverse_lazy("Dashboard:panel")
+
+    def get_form(self, *args, **kwargs):
+        form = super(CreateDish, self).get_form(*args, **kwargs)
+        form.fields['restaurant'].queryset = Restaurant.objects.filter(owner_id=self.request.user.client.id)
+        return form
+
+
+
+
+class ListDish(LoginRequiredMixin, ListView):
+    model = Dish
+    template_name = "Panel/list_dish.html"
+
+    def get_queryset(self):
+        queryset = Dish.objects.all()
+        return queryset
 
 
 class UpdateProfile(LoginRequiredMixin, UpdateView):
@@ -170,15 +196,16 @@ class UpdateProfile(LoginRequiredMixin, UpdateView):
 
     login_url = 'Dashboard:login'
 
-    def get(self, request, *args, **kwargs):
-        super(UpdateProfile, self).get(request, *args, **kwargs)
+    def get_object(self):
+        return User.objects.get(pk=self.request.user.pk)
 
-        if kwargs['pk']:
-            form = UserUpdateForm(instance = self.request.user)
-            form2 = UpdateProfileForm(instance = self.request.user.client)
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = UserUpdateForm(instance=self.request.user)
+        form2 = UpdateProfileForm(instance=self.request.user.client)
 
         return self.render_to_response(self.get_context_data(object=self.object, form=form, form2=form2))
-    
+
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
 
@@ -203,8 +230,9 @@ class UpdateProfile(LoginRequiredMixin, UpdateView):
 
 def delete_list_restaurant(request):
     restaurants = Restaurant.objects.all().order_by('id')
-    contexto = {'restaurants':restaurants}
-    return render(request,'Restaurants/delete_list_restaurant.html', contexto)
+    contexto = {'restaurants': restaurants}
+    return render(request, 'Restaurants/delete_list_restaurant.html', contexto)
+
 
 def delete_restaurant(request, id_restaurant):
     restaurant = Restaurant.objects.get(id=id_restaurant)
@@ -212,6 +240,21 @@ def delete_restaurant(request, id_restaurant):
         restaurant.active = False
         restaurant.save()
         return redirect('Dashboard:list_restaurant')
-    return render(request, 'Restaurants/delete_restaurant.html',{'restaurant':restaurant})
+    return render(request, 'Restaurants/delete_restaurant.html', {'restaurant': restaurant})
 
 
+class UpdatePlan(LoginRequiredMixin, UpdateView):
+    model = Client
+    fields = ['plan']
+    template_name = "Panel/update_plan.html"
+    success_url = reverse_lazy("Dashboard:update_profile")
+
+    def get_object(self):
+        client = Client.objects.get(user=self.request.user)
+        return client
+
+    def get_form(self, form_class=None):
+        form = super(UpdatePlan, self).get_form()
+        form.fields['plan'].widget.attrs.update({'class': 'form-control'})
+
+        return form

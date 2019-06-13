@@ -49,4 +49,7 @@ urlpatterns = [
     path('panel/delete/<id_restaurant>/',views.delete_restaurant, name="delete_restaurant"),
     path('panel/update_profile/<int:pk>', views.UpdateProfile.as_view(), name="update_profile"),
     path('panel/list_restaurant/', views.ListRestaurant.as_view(), name="list_restaurant"),
+    path('panel/create_dish/', views.CreateDish.as_view(), name="create_dish"),
+    path('panel/list_dish/', views.ListDish.as_view(), name="list_dish"),
+    path('panel/update_plan/', views.UpdatePlan.as_view(), name="update_plan"),
 ]

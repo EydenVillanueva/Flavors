@@ -46,13 +46,22 @@ Actualizar Perfil
 
                                     {{ field.label_tag }} {{ field }}
                                 {% endfor %}
-
-                                <br>
-                                <hr>
-                                <br>
-                                <button class="btn btn-primary btn-user">
-                                    Actualizar información
-                                </button>
+                                <label for="plan">Plan Actual</label>
+                                
+                                {% if request.user.client.plan == 'I' %}
+                                    <input class="form-control" type="text" id="plan" value="Ilimitado" disabled>
+                                {% elif request.user.client.plan == 'S'%}
+                                    <input class="form-control" type="text" id="plan" value="Sencillo" disabled>  
+                                {% else %}
+                                    <input class="form-control" type="text" id="plan" value="Premium" disabled>
+                                {% endif %}
+                                    
+                            <br>
+                            <hr>
+                            <br>
+                            <button class="btn btn-primary btn-user">
+                                Actualizar información
+                            </button>
                         </form>
                     </div>
                 </div>
