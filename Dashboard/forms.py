@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
 from django import forms
-from .models import Client, Restaurant
+from .models import Client, Restaurant, Dish
 from django.core.exceptions import ValidationError
 from django.forms.models import inlineformset_factory
 from django.core.mail import send_mail
@@ -151,6 +151,29 @@ class RestaurantForm(forms.ModelForm):
         for field in self.fields:
             self.fields[field].widget.attrs.update({'class': 'form-control'})
         self.fields['address'].widget.attrs.update({'rows': 3})
+
+
+class DishForm(forms.ModelForm):
+    class Meta:
+        model = Dish
+        fields = ('name', 'description', 'price', 'restaurant', 'categories', 'flavors')
+        labels = {
+            'name':'Nombre',
+            'description': 'Descripción',
+            'price': 'Precio',
+            'restaurant': 'Restaurante',
+            'categories': 'Categoria',
+            'flavors': 'Sabor'
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(DishForm, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({'class': 'form-control'})
+        self.fields['name'].widget.attrs['placeholder'] = 'Ingresa el nombre del platillo.'
+        self.fields['description'].widget.attrs['placeholder'] = 'Ingresa una descripción del platillo.'
+        self.fields['price'].widget.attrs['placeholder'] = 'Ingresa el precio.'
+        self.fields['restaurant'].empty_label = '---Seleccione uno de sus restaurantes---'
 
 
 class ContactForm(forms.Form):

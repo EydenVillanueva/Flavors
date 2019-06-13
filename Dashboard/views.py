@@ -12,7 +12,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from .forms import *
 from django.views.generic import CreateView, FormView, UpdateView, TemplateView, ListView
-from .models import Client, Restaurant
+from .models import Client, Restaurant, Dish, Category, Flavor
 
 
 # Create your views here.
@@ -161,6 +161,29 @@ class ListRestaurant(LoginRequiredMixin, ListView):
     def get_queryset(self):
         queryset = Restaurant.objects.filter(
             owner=self.request.user.client, active=True)
+        return queryset
+
+
+class CreateDish(LoginRequiredMixin, CreateView):
+    model = Dish
+    form_class = DishForm
+    template_name = "Panel/create_dish.html"
+    success_url = reverse_lazy("Dashboard:panel")
+
+    def get_form(self, *args, **kwargs):
+        form = super(CreateDish, self).get_form(*args, **kwargs)
+        form.fields['restaurant'].queryset = Restaurant.objects.filter(owner_id=self.request.user.client.id)
+        return form
+
+
+
+
+class ListDish(LoginRequiredMixin, ListView):
+    model = Dish
+    template_name = "Panel/list_dish.html"
+
+    def get_queryset(self):
+        queryset = Dish.objects.all()
         return queryset
 
 
