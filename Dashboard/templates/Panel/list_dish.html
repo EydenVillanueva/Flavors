@@ -24,6 +24,7 @@
                       <th>Restaurante</th>
                       <th>Categoria</th>
                       <th>Sabor</th>
+                      <th>Opciones</th>
                     </tr>
                 </thead>
 
@@ -34,11 +35,20 @@
                       <td>{{ object.description }}</td>
                       <td>{{ object.price }}</td>
                       <td>{{ object.restaurant }}</td>
-                      <td>{{ object.categories }}</td>
-                      <td>{{ object.flavors }}</td>
+                        {% for categorie in object.categories.all %}
+                            <td>
+                                  {{ categorie }}
+                            </td>
+                        {% endfor %}
+                        {% for flavor in object.flavors.all %}
+                            <td>
+                                  {{ flavor }}
+                            </td>
+                        {% endfor %}
+
                       <td align="center">
-                        <!--<a href="{% url 'Dashboard:delete_restaurant' object.id %}"><i class="fa fa-trash"></i></a>
-                        <a href="{% url 'Dashboard:update_restaurant' object.id %}"><i class="fas fa-pen-square"></i></a>-->
+                        <a href="{% url 'Dashboard:delete_restaurant' object.id %}"><i class="fa fa-trash"></i></a>
+                        <a href="{% url 'Dashboard:update_restaurant' object.id %}"><i class="fas fa-pen-square"></i></a>
                       </td>
                     </tr>
                 {% endfor %}

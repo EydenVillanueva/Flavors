@@ -176,8 +176,6 @@ class CreateDish(LoginRequiredMixin, CreateView):
         return form
 
 
-
-
 class ListDish(LoginRequiredMixin, ListView):
     model = Dish
     template_name = "Panel/list_dish.html"
