@@ -154,9 +154,9 @@ class UpdateRestaurant(LoginRequiredMixin, UpdateView):
 
 
 class ListRestaurant(LoginRequiredMixin, ListView):
-    Error = False
     model = Restaurant
     template_name = "Panel/list_restaurant.html"
+    login_url = 'Dashboard:login'
 
     def get_queryset(self):
         queryset = Restaurant.objects.filter(

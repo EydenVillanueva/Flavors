@@ -4,7 +4,6 @@ from django.contrib.auth import views as auth_views
 from django.urls import reverse_lazy
 from .forms import ChangePasswordForm
 
-#success_url=reverse_lazy("Dashboard:password_reset_done")
 app_name = 'Dashboard'
 
 urlpatterns = [
