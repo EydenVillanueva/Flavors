@@ -11,9 +11,11 @@
     </div>
     <div class="card-body">
         {% if object_list %}
-        <a class="login100-form-btn" href="{% url 'Dashboard:create_dish' %}">
+
+        <a class="btn btn-primary mb-3" href="{% url 'Dashboard:create_dish' restaurant %}">
             Agregar Platillo.
         </a>
+
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
@@ -21,7 +23,7 @@
                       <th>Nombre</th>
                       <th>Descripción</th>
                       <th>Precio</th>
-                      <th>Restaurante</th>
+                      <th>Restaurant</th>
                       <th>Categoria</th>
                       <th>Sabor</th>
                       <th>Opciones</th>
@@ -29,26 +31,25 @@
                 </thead>
 
                 <tbody>
-                {% for object in object_list %}
+                    {% for restaurant in object_list %}
                     <tr>
-                      <td>{{ object.name }}</td>
-                      <td>{{ object.description }}</td>
-                      <td>{{ object.price }}</td>
-                      <td>{{ object.restaurant }}</td>
-                        {% for categorie in object.categories.all %}
-                            <td>
-                                  {{ categorie }}
-                            </td>
+                      <td>{{ restaurant.name }}</td>
+                      <td>{{ restaurant.description }}</td>
+                      <td>{{ restaurant.price }}</td>
+                      <td>{{ restaurant.restaurant }}</td>
+                      <td>
+                        {% for categorie in restaurant.categories.all %}
+                            {{ categorie }}
+                            <br>
                         {% endfor %}
-                        {% for flavor in object.flavors.all %}
-                            <td>
-                                  {{ flavor }}
-                            </td>
+                      </td>
+                        <td align="center">
+                        {% for flavor in restaurant.flavors.all %}
+                            {{ flavor }}
                         {% endfor %}
-
+                        </td>
                       <td align="center">
-                        <a href="{% url 'Dashboard:delete_restaurant' object.id %}"><i class="fa fa-trash"></i></a>
-                        <a href="{% url 'Dashboard:update_restaurant' object.id %}"><i class="fas fa-pen-square"></i></a>
+                          <a href="{% url 'Dashboard:update_dish' restaurant.id %}"><i class="fas fa-pen-square"></i></a>
                       </td>
                     </tr>
                 {% endfor %}
@@ -58,7 +59,7 @@
         {% else  %}
 
         <h1 class="h4 text-gray-900 mb-4"> Aún no cuenta con Platillos </h1>
-        <a class="login100-form-btn" href="{% url 'Dashboard:create_dish' %}">
+        <a class="btn btn-primary mb-3" href="{% url 'Dashboard:create_dish' restaurant%}">
             Nuevo Platillo.
         </a>
 
@@ -66,4 +67,5 @@
 
     </div>
  </div>
+
 {% endblock content %}

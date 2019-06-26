@@ -1,3 +1,4 @@
+from itertools import chain
 from django.contrib.auth.models import User
 from django.contrib.auth import logout
 from django.views.decorators.csrf import csrf_exempt
@@ -149,7 +150,6 @@ class UpdateRestaurant(LoginRequiredMixin, UpdateView):
     form_class = RestaurantForm
     template_name = "Restaurants/update_restaurant.html"
     success_url = reverse_lazy("Dashboard:list_restaurant")
-
     login_url = 'Dashboard:login'
 
 
@@ -168,21 +168,39 @@ class CreateDish(LoginRequiredMixin, CreateView):
     model = Dish
     form_class = DishForm
     template_name = "Panel/create_dish.html"
-    success_url = reverse_lazy("Dashboard:panel")
+    success_url = reverse_lazy("Dashboard:list_restaurant")
 
     def get_form(self, *args, **kwargs):
         form = super(CreateDish, self).get_form(*args, **kwargs)
-        form.fields['restaurant'].queryset = Restaurant.objects.filter(owner_id=self.request.user.client.id)
+        form.fields['restaurant'].queryset = Restaurant.objects.filter(id=self.kwargs['restaurant'])
         return form
 
 
 class ListDish(LoginRequiredMixin, ListView):
     model = Dish
     template_name = "Panel/list_dish.html"
+    form_class = DishForm
 
     def get_queryset(self):
-        queryset = Dish.objects.all()
-        return queryset
+        self.queryset = super(ListDish, self).get_queryset().filter(restaurant_id=self.kwargs['restaurant'])
+        return self.queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(ListDish, self).get_context_data(**kwargs)
+        context['restaurant'] = self.kwargs['restaurant']
+        return context
+
+
+class UpdateDish(LoginRequiredMixin, UpdateView):
+    model = Dish
+    form_class = DishForm
+    template_name = 'Panel/update_dish.html'
+    success_url = reverse_lazy("Dashboard:list_restaurant")
+    login_url = 'Dashboard:login'
+
+    '''def get_success_url(self):
+        pk = self.kwargs['pk']
+        return reverse("Dashboard:list_dish", kwargs=pk)'''
 
 
 class UpdateProfile(LoginRequiredMixin, UpdateView):
