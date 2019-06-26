@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from .forms import *
-from django.views.generic import CreateView, FormView, UpdateView, TemplateView, ListView
+from django.views.generic import CreateView, FormView, UpdateView, TemplateView, ListView, DeleteView
 from .models import Client, Restaurant, Dish, Category, Flavor
 
 
@@ -244,19 +244,20 @@ class UpdateProfile(LoginRequiredMixin, UpdateView):
             return self.render_to_response(self.get_context_data(form=form, form2=form2))
 
 
-def delete_list_restaurant(request):
-    restaurants = Restaurant.objects.all().order_by('id')
-    contexto = {'restaurants': restaurants}
-    return render(request, 'Restaurants/delete_list_restaurant.html', contexto)
+class DeleteRestaurant(LoginRequiredMixin, DeleteView):
+    model = Restaurant
+    template_name = 'Restaurants/delete_restaurant.html'
+    success_url = reverse_lazy("Dashboard:list_restaurant")
 
+    login_url = 'Dashboard:login'
 
-def delete_restaurant(request, id_restaurant):
-    restaurant = Restaurant.objects.get(id=id_restaurant)
-    if request.method == 'POST':
-        restaurant.active = False
-        restaurant.save()
-        return redirect('Dashboard:list_restaurant')
-    return render(request, 'Restaurants/delete_restaurant.html', {'restaurant': restaurant})
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.active = False
+        self.object.save()
+        success_url = self.get_success_url()
+        return HttpResponseRedirect(success_url)
+
 
 
 class UpdatePlan(LoginRequiredMixin, UpdateView):
