@@ -1,10 +1,11 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
 from django import forms
-from .models import Client, Restaurant, Dish
+from .models import Client, Restaurant, Dish, Shedule, Media, Social
 from django.core.exceptions import ValidationError
 from django.forms.models import inlineformset_factory
 from django.core.mail import send_mail
+#from django.bootstrap_datepicker_plus import DatePickerInput
 
 
 class UserForm(forms.ModelForm):
@@ -158,7 +159,7 @@ class DishForm(forms.ModelForm):
         model = Dish
         fields = ('name', 'description', 'price', 'restaurant', 'categories', 'flavors')
         labels = {
-            'name':'Nombre',
+            'name': 'Nombre',
             'description': 'Descripción',
             'price': 'Precio',
             'restaurant': 'Restaurante',
@@ -174,6 +175,70 @@ class DishForm(forms.ModelForm):
         self.fields['description'].widget.attrs['placeholder'] = 'Ingresa una descripción del platillo.'
         self.fields['price'].widget.attrs['placeholder'] = 'Ingresa el precio.'
         self.fields['restaurant'].empty_label = '---Seleccione uno de sus restaurantes---'
+
+
+class SheduleForm(forms.ModelForm):
+
+    class Meta:
+        model = Shedule
+        fields = ('days', 'time_open', 'time_close', 'restaurant')
+        labels = {
+            'days': 'Dia(s)',
+            'time_open': 'Hora de Apertura',
+            'time_close': 'Hora de Cierre',
+            'restaurant': 'Restaurante'
+        }
+        """widgets = {
+            #'days': forms.CheckboxSelectMultiple(attrs={'class': 'form-control', 'placeholder': 'Ingrese los dias del horario'}),
+            'time_open': DatePickerInput(),
+            #'time_close': forms.TimeInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese la hora de cierre'}),
+        }"""
+
+    def __init__(self, *args, **kwargs):
+        super(SheduleForm, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({'class': 'form-control'})
+        self.fields['days'].widget.attrs['placeholder'] = 'Ingrese los dias del horario.'
+        self.fields['time_open'].widget.attrs['placeholder'] = 'Ingrese la hora de apertura'
+        self.fields['time_close'].widget.attrs['placeholder'] = 'Ingrese la hora de cierre'
+        self.fields['restaurant'].empty_label = '---Seleccione uno de sus restaurantes---'
+
+
+"""class SocialForm(forms.ModelForm):
+    class Meta:
+        model = Social
+        fields = ('name', 'red')
+        labels = {
+            'name': 'Nombre',
+            #'red': 'Red Social'
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(SocialForm, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({'class': 'form-control'})
+        self.fields['name'].widget.attrs['placeholder'] = 'Ingrese el nombre de la red '
+        #self.fields['red'].widget.attrs['placeholder'] = 'Ingrese el url de red social'"""
+
+
+class MediaForm(forms.ModelForm):
+
+    class Meta:
+        model = Media
+        fields = ('restaurant', 'social','red')
+        labels = {
+            'restaurant': 'Restaurante',
+            'social': 'Redes Sociales',
+            'red': 'URL'
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(MediaForm, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({'class': 'form-control'})
+        self.fields['restaurant'].empty_label = '---Seleccione uno de sus restaurantes---'
+        self.fields['social'].widget.attrs['placeholder'] = 'Ingrese la red social'
+        self.fields['red'].widget.attrs['placeholder'] = 'Ingrese el url de red social'
 
 
 class ContactForm(forms.Form):

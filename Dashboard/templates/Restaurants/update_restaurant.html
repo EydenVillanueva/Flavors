@@ -6,6 +6,8 @@
 
 
 {% block content %}
+    {% if restaurant %}
+
     <div class="container">
         <div class="card o-hidden border-0 shadow-lg my-5">
             <div class="card-body p-0">
@@ -39,4 +41,9 @@
             </div>
         </div>
     </div>
+    {% else %}
+        <p> Este restaurant no le pertenece a usted</p>
+    {% endif %}
+
+
 {% endblock content %}

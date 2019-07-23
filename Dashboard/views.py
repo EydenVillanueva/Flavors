@@ -1,20 +1,21 @@
 from itertools import chain
+
+import pytz
 from django.contrib.auth.models import User
 from django.contrib.auth import logout
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404, redirect, reverse
+from django.shortcuts import render, get_object_or_404, redirect, reverse, render_to_response
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
-from django.http.response import HttpResponseRedirect
+from django.http.response import HttpResponseRedirect, Http404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from .forms import *
 from django.views.generic import CreateView, FormView, UpdateView, TemplateView, ListView, DeleteView
-from .models import Client, Restaurant, Dish, Category, Flavor
-
+from .models import Client, Restaurant, Dish, Category, Flavor, Shedule, Media, Social
 
 # Create your views here.
 
@@ -152,6 +153,11 @@ class UpdateRestaurant(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy("Dashboard:list_restaurant")
     login_url = 'Dashboard:login'
 
+    def get_queryset(self):
+        self.queryset = Restaurant.objects.filter(id=self.kwargs['pk'], owner=self.request.user.client, active=True)
+        get_object_or_404(self.queryset, id=self.kwargs['pk'], owner=self.request.user.client, active=True)
+        return self.queryset
+
 
 class ListRestaurant(LoginRequiredMixin, ListView):
     model = Restaurant
@@ -164,6 +170,17 @@ class ListRestaurant(LoginRequiredMixin, ListView):
         return queryset
 
 
+class Detail(LoginRequiredMixin, TemplateView):
+    model = Restaurant
+    template_name = "Panel/restaurant_detail.html"
+    login_url = 'Dashboard:login'
+
+    def get_context_data(self, **kwargs):
+        context = super(Detail, self).get_context_data(**kwargs)
+        context['pk'] = self.kwargs['pk']
+        return context
+
+
 class CreateDish(LoginRequiredMixin, CreateView):
     model = Dish
     form_class = DishForm
@@ -174,6 +191,10 @@ class CreateDish(LoginRequiredMixin, CreateView):
         form = super(CreateDish, self).get_form(*args, **kwargs)
         form.fields['restaurant'].queryset = Restaurant.objects.filter(id=self.kwargs['restaurant'])
         return form
+
+    def get_success_url(self):
+        pk = self.object.restaurant_id
+        return reverse_lazy("Dashboard:list_dish", kwargs={"restaurant": pk})
 
 
 class ListDish(LoginRequiredMixin, ListView):
@@ -198,9 +219,146 @@ class UpdateDish(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy("Dashboard:list_restaurant")
     login_url = 'Dashboard:login'
 
-    '''def get_success_url(self):
+    def get_success_url(self):
+        pk = self.object.restaurant_id
+        return reverse_lazy("Dashboard:list_dish", kwargs={"restaurant": pk})
+
+    def get_queryset(self):
+        self.queryset = super(UpdateDish, self).get_queryset().filter(id=self.kwargs['pk'],
+                                                                      restaurant__owner_id=self.request.user.client.id)
+        get_object_or_404(self.queryset, id=self.kwargs['pk'], restaurant__owner_id=self.request.user.client.id)
+        return self.queryset
+
+
+class DeleteDish(LoginRequiredMixin, DeleteView):
+    model = Dish
+    template_name = 'Panel/delete_dish.html'
+    success_url = reverse_lazy("Dashboard:list_restaurant")
+    login_url = 'Dashboard:login'
+
+    def get_queryset(self):
+        dish = self.kwargs['pk']
+        return self.model.objects.filter(id=dish)
+
+    def get_success_url(self):
+        pk = self.object.restaurant_id
+        return reverse_lazy("Dashboard:list_dish", kwargs={"restaurant": pk})
+
+
+class CreateShedule(LoginRequiredMixin, CreateView):
+    model = Shedule
+    form_class = SheduleForm
+    template_name = 'Panel/create_shedule.html'
+
+    def get_form(self, *args, **kwargs):
+        form = super(CreateShedule, self).get_form(*args, **kwargs)
+        form.fields['restaurant'].queryset = Restaurant.objects.filter(id=self.kwargs['pk'], owner_id=self.request.user.client.id)
+        return form
+
+    def get_success_url(self):
+        pk = self.object.restaurant_id
+        return reverse_lazy("Dashboard:list_dish", kwargs={"restaurant": pk})
+
+
+class ListShedule(LoginRequiredMixin, ListView):
+    model = Shedule
+    template_name = 'Panel/list_shedule.html'
+
+    def get_queryset(self):
+        self.queryset = Shedule.objects.filter(active=True, restaurant__id=self.kwargs['pk'], restaurant__owner_id=self.request.user.client.id)
+        return self.queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(ListShedule, self).get_context_data(**kwargs)
+        context['pk'] = self.kwargs['pk']
+        return context
+
+
+class UpdateShedule(LoginRequiredMixin, UpdateView):
+    model = Shedule
+    template_name = 'Panel/update_shedule.html'
+    form_class = SheduleForm
+
+    def get_queryset(self):
+        self.queryset = super(UpdateShedule, self).get_queryset().filter(active=True,
+                                                                         restaurant__owner_id=self.request.user.client.id)
+        get_object_or_404(self.queryset, id=self.kwargs['pk'], active=True,
+                          restaurant__owner_id=self.request.user.client.id)
+        return self.queryset
+
+    def get_success_url(self):
         pk = self.kwargs['pk']
-        return reverse("Dashboard:list_dish", kwargs=pk)'''
+        return reverse_lazy("Dashboard:list_shedule", kwargs={"pk": pk})
+
+
+class DeleteShedule(LoginRequiredMixin, DeleteView):
+    model = Shedule
+    template_name = 'Panel/delete_shedule.html'
+    success_url = reverse_lazy("Dashboard:list_shedule")
+    login_url = 'Dashboard:login'
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.active = False
+        self.object.save()
+        success_url = self.get_success_url()
+        return HttpResponseRedirect(success_url)
+
+
+class CreateSocial(LoginRequiredMixin, CreateView):
+    model = Social
+    template_name = 'Panel/create_social.html'
+    #form_class = SocialForm
+
+    def get_success_url(self):
+        pk = self.kwargs['pk']
+        return reverse_lazy("Dashboard:create_media", kwargs={"pk": pk})
+
+
+class UpdateSocial(LoginRequiredMixin, UpdateView):
+    model = Social
+    template_name = 'Panel/update_social.html'
+    #form_class = SocialForm
+
+    def get_success_url(self):
+        pk = self.kwargs['pk']
+        return reverse_lazy("Dashboard:list_media", kwargs={"pk": pk})
+
+
+class CreateMedia(LoginRequiredMixin, CreateView):
+    model = Media
+    template_name = 'Panel/create_media.html'
+    form_class = MediaForm
+
+    def get_form(self, *args, **kwargs):
+        form = super(CreateMedia, self).get_form(*args, **kwargs)
+        form.fields['restaurant'].queryset = Restaurant.objects.filter(id=self.kwargs['pk'], owner_id=self.request.user.client.id)
+        #form.fields['social'].queryset = Media.objects.filter(active=True, restaurant_id=self.kwargs['pk'],
+                                                               #restaurant__owner_id=self.request.user.client.id)
+        return form
+
+    def get_context_data(self, **kwargs):
+        context = super(CreateMedia, self).get_context_data(**kwargs)
+        context['pk'] = self.kwargs['pk']
+        return context
+
+    def get_success_url(self):
+        pk = self.kwargs['pk']
+        return reverse_lazy("Dashboard:list_media", kwargs={"pk": pk})
+
+
+class ListMedia(LoginRequiredMixin, ListView):
+    model = Media
+    template_name = 'Panel/list_media.html'
+
+    def get_queryset(self):
+        self.queryset = Media.objects.filter(active=True, restaurant__id=self.kwargs['pk'], restaurant__owner_id=self.request.user.client.id)
+        return self.queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(ListMedia, self).get_context_data(**kwargs)
+        context['pk'] = self.kwargs['pk']
+        return context
 
 
 class UpdateProfile(LoginRequiredMixin, UpdateView):
@@ -248,7 +406,6 @@ class DeleteRestaurant(LoginRequiredMixin, DeleteView):
     model = Restaurant
     template_name = 'Restaurants/delete_restaurant.html'
     success_url = reverse_lazy("Dashboard:list_restaurant")
-
     login_url = 'Dashboard:login'
 
     def delete(self, request, *args, **kwargs):
@@ -257,7 +414,6 @@ class DeleteRestaurant(LoginRequiredMixin, DeleteView):
         self.object.save()
         success_url = self.get_success_url()
         return HttpResponseRedirect(success_url)
-
 
 
 class UpdatePlan(LoginRequiredMixin, UpdateView):
@@ -273,5 +429,4 @@ class UpdatePlan(LoginRequiredMixin, UpdateView):
     def get_form(self, form_class=None):
         form = super(UpdatePlan, self).get_form()
         form.fields['plan'].widget.attrs.update({'class': 'form-control'})
-
         return form

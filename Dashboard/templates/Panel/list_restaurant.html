@@ -24,7 +24,8 @@
                       <!--<th>Logo</th>-->
                       <!--<th>Website</th>-->
                       <th>Opciones</th>
-                      <th>Platillos</th>
+                      <th>Detalles</th>
+
                     </tr>
                 </thead>
   
@@ -36,12 +37,15 @@
                       <!--<td><img src="{{ object.logo_url }}"></td>-->
                       <!--<td>{{ object.web_site }}</td>-->
                       <td align="center">
-                          <a href="{% url 'Dashboard:delete_restaurant' object.id %}"><i class="fa fa-trash"></i></a>
                           <a href="{% url 'Dashboard:update_restaurant' object.id %}"><i class="fas fa-pen-square"></i></a>
+                          <a href="{% url 'Dashboard:delete_restaurant' object.id %}"><i class="fa fa-trash"></i></a>
                       </td>
-                        <td align="center">
+                        <!--<td align="center">
                             <a href="{% url 'Dashboard:create_dish' object.id %}"><i class="fas fa-plus-square"></i></a>
                             <a href="{% url 'Dashboard:list_dish' object.id %}"><i class="fas fa-list"></i></a>
+                        </td>-->
+                        <td align="center">
+                            <a href="{% url 'Dashboard:restaurant_detail' object.id %}"><i class="fas fa-plus-square"></i></a>
                         </td>
                     </tr>
                 {% endfor %}

@@ -6,7 +6,7 @@ from django.dispatch import receiver
 
 # Timestamp model to save the date of every transaction of the rest of the models
 class Timestamp(models.Model):
-    create_at = models.DateField(auto_now_add=True)
+    create_at = models.DateField(auto_now_add=True, null=True, blank=True)
     update_at = models.DateField(auto_now=True)
     delete_at = models.DateField(auto_now=True)
 
@@ -72,11 +72,46 @@ class Dish(models.Model):
         return self.name
 
 
+class Day(models.Model):
+    DAYS_OF_WEEK = (
+        ('D', 'Sunday'),
+        ('L', 'Monday'),
+        ('M', 'Tuesday'),
+        ('MI', 'Wednesday'),
+        ('J', 'Thursday'),
+        ('V', 'Friday'),
+        ('S', 'Saturday'),
+    )
+    day = models.CharField(max_length=2, choices=DAYS_OF_WEEK, default='D')
+
+    def __str__(self):
+        return self.day
+
+
 class Shedule(models.Model):
-    days = models.TextField()
-    time_open = models.DateTimeField()
-    time_close = models.DateTimeField()
+    days = models.ManyToManyField(Day)
+    time_open = models.TimeField()
+    time_close = models.TimeField()
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    active = models.BooleanField('active', blank=False, null=False, default=True)
 
     def __str__(self):
         return self.restaurant.name
+
+
+class Social(Timestamp):
+
+    name = models.CharField(max_length=14, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Media(models.Model):
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    social = models.ForeignKey(Social, on_delete=models.CASCADE)
+    red = models.URLField(max_length=200, unique=True, blank=False, null=False, default='www.google.com')
+    active = models.BooleanField('active', blank=False, null=False, default=True)
+
+    def __str__(self):
+        return self.social.name

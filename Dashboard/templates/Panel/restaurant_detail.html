@@ -1,0 +1,45 @@
+{% extends "Panel/base.html" %}
+
+{% block titulo %}
+  Restaurantes
+{% endblock titulo %}
+
+{% block content %}
+
+ <div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Lista de Detalles</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                      <th>Platillos</th>
+                      <th>Horarios</th>
+                      <th>Redes Sociales</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td align="center">
+                            <a href="{% url 'Dashboard:create_dish' pk  %}"><i class="fas fa-plus-square"></i></a>
+                            <a href="{% url 'Dashboard:list_dish' pk %}"><i class="fas fa-list"></i></a>
+                        </td>
+                        <td align="center">
+                            <a href="{% url 'Dashboard:create_shedule' pk  %}"><i class="fas fa-plus-square"></i></a>
+                            <a href="{% url 'Dashboard:list_shedule' pk %}"><i class="fas fa-list"></i></a>
+                        </td>
+                        <td align="center">
+                            <a href="{% url 'Dashboard:create_media' pk  %}"><i class="fas fa-plus-square"></i></a>
+                            <a href="{% url 'Dashboard:list_media' pk %}"><i class="fas fa-list"></i></a>
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+ </div>
+{% endblock content %}

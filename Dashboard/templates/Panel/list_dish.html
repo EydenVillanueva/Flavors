@@ -50,6 +50,7 @@
                         </td>
                       <td align="center">
                           <a href="{% url 'Dashboard:update_dish' restaurant.id %}"><i class="fas fa-pen-square"></i></a>
+                          <a href="{% url 'Dashboard:delete_dish' restaurant.id %}"><i class="fa fa-trash"></i></a>
                       </td>
                     </tr>
                 {% endfor %}

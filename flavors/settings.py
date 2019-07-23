@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Api',
     'Dashboard',
+
 ]
 
 MIDDLEWARE = [
@@ -142,5 +143,9 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 AUTHENTICATION_BACKENDS = (
     'Dashboard.backends.ModelBackend',
 )
+
+BOOTSTRAP4 = {
+    'include_jquery': True,
+}
 
 

@@ -1,0 +1,27 @@
+{% extends "Panel/base.html" %}
+
+{% block titulo %}
+  Eliminar Horario
+{% endblock titulo %}
+
+{% block content %}
+<div class="container">
+    <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+            <div class="row d-flex">
+                <div class="col-lg-12">
+                    <div class="p-5">
+                        <form method="POST" class="user">
+                            {% csrf_token %}
+                            <h3>¿ Está seguro de eliminar el horario de {{ shedule.time_open }} a {{ shedule.time_close}} ?</h3>
+                            <a class="btn btn-secondary mt-3 btn-sm" href="{% url 'Dashboard:list_shedule'%}">Cancelar</a>
+                            <button class="btn btn-danger mt-3 btn-sm" type="submit">Eliminar</button>
+                          </form>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
